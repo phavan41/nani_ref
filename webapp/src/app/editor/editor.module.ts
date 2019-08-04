@@ -22,6 +22,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { UsersComponent } from '../mastercomponents/users/users.component';
 import { ManageusersComponent}from '../user/manageusers/manageusers.component';
 import { ManageApplicationsComponent } from './manage-applications/manage-applications.component';
+import { ManageDocumentsComponent } from './manage-documents/manage-documents.component';
 
 @NgModule({
 
@@ -30,7 +31,8 @@ import { ManageApplicationsComponent } from './manage-applications/manage-applic
         HeaderComponent,
         MenuComponent,
         ManageusersComponent,
-        ManageApplicationsComponent
+        ManageApplicationsComponent,
+        ManageDocumentsComponent
     ],
     imports: [
         
