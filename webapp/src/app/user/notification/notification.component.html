@@ -1,0 +1,155 @@
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                {{globals.switchLanguageValue.common_notifications}}
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a  class="m-nav__link m-nav__link--icon">
+                        <i class="m-nav__link-icon la la-home"></i>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a  class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            {{globals.switchLanguageValue.common_notifications}}
+                        </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        <div>
+
+        </div>
+    </div>
+</div>
+<div class="m-content c-page-min-height">
+  <div class="m-portlet m-portlet--mobile">
+      <div class="m-portlet__head">
+          <div class="m-portlet__head-caption">
+              <div class="m-portlet__head-title">
+                  <h3 class="m-portlet__head-text">
+                    {{globals.switchLanguageValue.common_notifications}}
+                  </h3>
+              </div>
+          </div>
+      </div>
+      <div class="m-portlet__body">
+          <app-datatable #cd filterText="Notification {{globals.switchLanguageValue.common_label_filter}}" 
+          (onSearchClick)="onSearchClicked($event)" (onClearClick)="closepopup()" (onResetClick)="resetSearch($event)"
+          (onRefreshClick)="refreshDataTable()" (onPrintClick)="downloadNotifications(this.paging.sortBy,this.paging.sortDirection,'print', this.paging.search)"
+          (onExportPDFClick)="downloadNotifications(this.paging.sortBy,this.paging.sortDirection,'excel', this.paging.search)"
+          (onExportExcelClick)="downloadNotifications(this.paging.sortBy,this.paging.sortDirection,'pdf', this.paging.search)"
+          filterWidth="700px"
+          [showDownload]="globals.getprofileaction != null && globals.getprofileaction.Notification_Export"
+          [showPrint]="globals.getprofileaction != null && globals.getprofileaction.Notification_Export"
+          > 
+          <div table-filter-body>
+            <div class=" row">
+                <div class="col-md-6 c-marginbtm20">
+                   <app-datepicker name="from_date" identifier="from_date" [(ngModel)]="paging.search.from_date" label="{{globals.switchLanguageValue.from_date}}:"  formGroupCssClass="c-form_group" [inline]="false" [showPickerOnTop]="false" placeholder="{{globals.switchLanguageValue.from_date}}" ></app-datepicker>
+                </div>
+                <div class="col-md-6 c-marginbtm20">
+                   <app-datepicker name="to_date" identifier="to_date" [(ngModel)]="paging.search.to_date"   label="{{globals.switchLanguageValue.to_date}}:" formGroupCssClass="c-form_group"  [inline]="false" [showPickerOnTop]="false" placeholder="{{globals.switchLanguageValue.to_date}}" ></app-datepicker>
+                </div>
+            </div>
+            
+            <div class="row" *ngIf="globals.getprofileaction != null && globals.getprofileaction.Notifications_View_All_User_Notifications">
+                <div class="col-md-6 c-marginbtm20">
+					<app-radiobutton identifier="lstUserType" label="{{globals.switchLanguageValue.notification_user}}:"
+							name="lstUserType" [(ngModel)]="paging.userType" [options]="userTypes" 
+							labelColumns=2 radioBoxListColumns=10 [inlineRadio]="true">
+						</app-radiobutton>
+                </div>
+                <div class="col-md-6 c-marginbtm20">
+                    <app-typeahead identifier="assignvehicle" name="assignvehicle" [searchOptions]="vehicleIds"
+                label="{{globals.switchLanguageValue.vehicle}}:" [(ngModel)]="vehicleobj" placeholder="{{globals.switchLanguageValue.enter_vehicle_regNo}}"></app-typeahead>
+                </div>
+                
+            </div>
+           
+          </div>
+          <p-dataTable #tripsDT table-body [value]="notifications" [rows]="10" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[1,5,10,20,25]" [totalRecords]="totalRecords"
+              [lazy]="true" (onLazyLoad)="getAllNotifications($event)" scrollable="true" sortMode="multiple"  #dt
+              [alwaysShowPaginator]="false" >
+            <p-column header="{{globals.switchLanguageValue.notification_time}}" [sortable]="true" [style]="{'width':'150px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap">
+                <ng-template let-not="rowData" pTemplate="body">
+                              {{not.created_on| date: 'dd/MM/yyyy HH:MM:SS'}}
+                  
+              </ng-template>
+            </p-column>
+            <p-column header="{{globals.switchLanguageValue.object_Type}}" [sortable]="true" [style]="{'width':'170px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell" field="object_type">
+            </p-column>
+            <p-column header="{{globals.switchLanguageValue.vehicles_register_no}}" [sortable]="true" [style]="{'width':'170px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell" field="registration_number">
+            </p-column>
+            <p-column header="{{globals.switchLanguageValue.Notification_Mode}}" [sortable]="true" [style]="{'width':'170px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell" field="notification_modes">
+            </p-column>
+            <p-column header="{{globals.switchLanguageValue.notification_type}}"  field="title" [sortable]="false" [style]="{'width':'150px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column>
+            
+            <p-column [style]="{'width':'150px'}" styleClass="col-button">
+                <ng-template let-not="rowData" pTemplate="body">
+                      <a class="m-nav__link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" 
+                      (click)="viewnotification(not.id)"
+                          title="{{globals.switchLanguageValue.view}}">
+                          <i class="fa fa-eye"></i>
+                      </a>
+                  </ng-template>
+              </p-column>
+          </p-dataTable>
+          </app-datatable>
+      </div>
+  </div>
+</div>
+<ng-template #notificationPopup let-c="close" let-d="dismiss">
+  <div class="modal-header c-marginbtm20" >
+    <h4 class="modal-title" id="exampleModalLabel">{{globals.switchLanguageValue.notification_details}}</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body" >
+      
+    <!--<div class="row" style="padding-bottom: 5px;">
+      <div class="col-md-3"><b>Notification Type</b></div>
+      <div class="col-md-6">{{notification.object_type}}</div>
+      <div class="col-md-3">{{notification.created_on| date: 'dd/MM/yyyy HH:MM:SS'}}</div>
+    </div>
+    <div class="m-content" style="border-top:1px solid #333; padding-bottom:10px;">
+    <div class="row" >
+      <div class="col-md-6 text-center"><b>{{notification.value1}}</b></div>
+    </div>
+    <div class="row" >
+      <div class="col-md-6 text-center"><b>{{notification.value2}}</b></div>
+    </div>
+  </div>-->
+    <div class="row c-marginbtm20" >
+      <div class="col-md-3"><b>{{globals.switchLanguageValue.notification_time}}</b></div>
+      <div class="col-md-3">:  {{notification.created_on| date: 'dd/MM/yyyy HH:MM:SS'}}</div>
+    </div>
+    <div class="row c-marginbtm20" >
+        <div class="col-md-3"><b>{{globals.switchLanguageValue.common_alert_type}}</b></div>
+        <div class="col-md-8 ">:  {{notification.object_type}}</div>
+    </div>
+    <div class="row c-marginbtm20" >
+        <div class="col-md-3"><b>{{globals.switchLanguageValue.notification_type}}</b></div>
+        <div class="col-md-8 ">:  {{notification.title}}</div>
+    </div>
+    <div class="row c-marginbtm20" >
+        <div class="col-md-3"><b>{{globals.switchLanguageValue.common_label_message}}</b></div>
+        <div class="col-md-8 ">:<div [innerHTML]="notification.body"></div></div>
+    </div>  
+</div>
+  <div class="modal-footer">
+    
+      <div class="col-lg-12 text-center">
+        <app-button buttonText="{{globals.switchLanguageValue.common_button_close}}" cssClass="btn m-btn--pill btn-warning m-btn--air m-btn m-btn--custom btn-custom-style" buttonIcon="la la-close" 
+        (onClick)="closeNotification()"></app-button>
+    </div>
+  </div>
+
+</ng-template>

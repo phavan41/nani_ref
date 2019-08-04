@@ -1,0 +1,111 @@
+stage_deploy:
+    environment: production
+    before_script:
+        - mkdir -p ~/.ssh
+        - eval $(ssh-agent -s)
+        - echo "$PROD_SERVER_SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/deploy_rsa
+        - chmod 600 ~/.ssh/deploy_rsa
+        - 'echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    only:
+    - master
+    script:
+        - ssh-add <(echo "$PROD_SERVER_SSH_PRIVATE_KEY")
+        - export DEPLOY_DIR="/var/www/html/syntm/"
+        - npm install
+        #- ng build --prod --build-optimizer --env=staging
+        - ng build --env=staging
+        - zip -r deploy.zip "dist"
+        - scp -P22 -p deploy.zip ubuntu@35.163.226.123:/var/www/html/syntm
+        - ssh -P22 ubuntu@35.163.226.123 "find /var/www/html/syntm/* -not -name 'deploy.zip' -print0 | xargs -0 rm -rf"
+        - ssh -P22 ubuntu@35.163.226.123 "unzip /var/www/html/syntm/deploy.zip -d /var/www/html/syntm/"
+        - ssh -P22 ubuntu@35.163.226.123 "rm -f /var/www/html/syntm/deploy.zip"
+        - ssh -P22 ubuntu@35.163.226.123 "mv /var/www/html/syntm/dist/* /var/www/html/syntm/"
+        - ssh -P22 ubuntu@35.163.226.123 "rm -rf /var/www/html/syntm/dist"
+    artifacts:
+        expire_in: 1 week
+        paths:
+        - dist
+
+bg_changes_deploy:
+    environment: production
+    before_script:
+        - mkdir -p ~/.ssh
+        - eval $(ssh-agent -s)
+        - echo "$PROD_SERVER_SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/deploy_rsa
+        - chmod 600 ~/.ssh/deploy_rsa
+        - 'echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    only:
+    - business_group_changes
+    script:
+        - ssh-add <(echo "$PROD_SERVER_SSH_PRIVATE_KEY")
+        - export DEPLOY_DIR="/var/www/html/syntm/"
+        - npm install
+        #- ng build --prod --build-optimizer --env=staging
+        - ng build --env=staging
+        - zip -r deploy.zip "dist"
+        - scp -P22 -p deploy.zip ubuntu@35.163.226.123:/var/www/html/syntm
+        - ssh -P22 ubuntu@35.163.226.123 "find /var/www/html/syntm/* -not -name 'deploy.zip' -print0 | xargs -0 rm -rf"
+        - ssh -P22 ubuntu@35.163.226.123 "unzip /var/www/html/syntm/deploy.zip -d /var/www/html/syntm/"
+        - ssh -P22 ubuntu@35.163.226.123 "rm -f /var/www/html/syntm/deploy.zip"
+        - ssh -P22 ubuntu@35.163.226.123 "mv /var/www/html/syntm/dist/* /var/www/html/syntm/"
+        - ssh -P22 ubuntu@35.163.226.123 "rm -rf /var/www/html/syntm/dist"
+    artifacts:
+        expire_in: 1 week
+        paths:
+        - dist
+
+fleetpath_deploy:
+    environment: production
+    before_script:
+        - mkdir -p ~/.ssh
+        - eval $(ssh-agent -s)
+        - echo "$FLEETPATH_SERVER_SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/deploy_rsa
+        - chmod 600 ~/.ssh/deploy_rsa
+        - 'echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    only:
+    - fleetpath
+    script:
+        - ssh-add <(echo "$FLEETPATH_SERVER_SSH_PRIVATE_KEY")
+        - export DEPLOY_DIR="/var/www/html/fleetpath/"
+        - npm install
+        #- ng build --prod --build-optimizer --env=staging
+        - node --max_old_space_size=8192 ./node_modules/.bin/ng build --prod --build-optimizer --env=fleetpath
+        - zip -r deploy.zip "dist"
+        - scp -P22 -p deploy.zip ubuntu@34.208.59.83:/var/www/html/fleetpath
+        - ssh -P22 ubuntu@34.208.59.83 "find /var/www/html/fleetpath/* -not -name 'deploy.zip' -print0 | xargs -0 rm -rf"
+        - ssh -P22 ubuntu@34.208.59.83 "unzip /var/www/html/fleetpath/deploy.zip -d /var/www/html/fleetpath/"
+        - ssh -P22 ubuntu@34.208.59.83 "rm -f /var/www/html/fleetpath/deploy.zip"
+        - ssh -P22 ubuntu@34.208.59.83 "mv /var/www/html/fleetpath/dist/* /var/www/html/fleetpath/"
+        - ssh -P22 ubuntu@34.208.59.83 "rm -rf /var/www/html/fleetpath/dist"
+    artifacts:
+        expire_in: 1 week
+        paths:
+        - dist
+        
+testing_deploy:
+    environment: testing
+    before_script:
+        - mkdir -p ~/.ssh
+        - eval $(ssh-agent -s)
+        - echo "$PROD_SERVER_SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/deploy_rsa
+        - chmod 600 ~/.ssh/deploy_rsa
+        - 'echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    only:
+    - stage-webapp
+    script:
+        - ssh-add <(echo "$PROD_SERVER_SSH_PRIVATE_KEY")
+        - export DEPLOY_DIR="/var/www/html/syntmstaging/"
+        - npm install
+        #- ng build --prod --build-optimizer --env=staging
+        - ng build --env=testing
+        - zip -r deploy.zip "dist"
+        - scp -P22 -p deploy.zip ubuntu@35.163.226.123:/var/www/html/syntmstaging
+        - ssh -P22 ubuntu@35.163.226.123 "find /var/www/html/syntmstaging/* -not -name 'deploy.zip' -print0 | xargs -0 rm -rf"
+        - ssh -P22 ubuntu@35.163.226.123 "unzip /var/www/html/syntmstaging/deploy.zip -d /var/www/html/syntmstaging/"
+        - ssh -P22 ubuntu@35.163.226.123 "rm -f /var/www/html/syntmstaging/deploy.zip"
+        - ssh -P22 ubuntu@35.163.226.123 "mv /var/www/html/syntmstaging/dist/* /var/www/html/syntmstaging/"
+        - ssh -P22 ubuntu@35.163.226.123 "rm -rf /var/www/html/syntmstaging/dist"
+    artifacts:
+        expire_in: 1 week
+        paths:
+        - dist

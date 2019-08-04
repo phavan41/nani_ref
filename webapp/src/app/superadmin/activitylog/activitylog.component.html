@@ -1,0 +1,107 @@
+<div class="m-grid__item m-grid__item--fluid m-wrapper">
+
+  <!-- BEGIN: Subheader -->
+  <div class="m-subheader ">
+      <div class="d-flex align-items-center">
+          <div class="mr-auto">
+              <h3 class="m-subheader__title m-subheader__title--separator">{{globals.switchLanguageValue.Activity_Log}}</h3>
+              <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                  <li class="m-nav__item m-nav__item--home">
+                      <a class="m-nav__link m-nav__link--icon">
+                          <i class="m-nav__link-icon la la-home"></i>
+                      </a>
+                  </li>
+                  <li class="m-nav__separator">-</li>
+                  <li class="m-nav__item">
+                      <a class="m-nav__link">
+                          <span class="m-nav__link-text">{{globals.switchLanguageValue.Activity_Log}}</span>
+                      </a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+      <div class="row c-marginbtm20 c-margintop20">
+        <div class="col-md-4 c-marginbtm20">
+            <app-selectbox identifier="account_name"  [(ngModel)]="paging.search.account_ids" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.account_name}}:" [options]="account_list" optionsValueField="id" optionsTextField="account_name" name="account_name" (onChange)="getUserList()" required></app-selectbox>
+          </div>
+    </div>
+  </div>
+
+  <!-- grid start -->
+  <div class="m-content c-page-min-height" [hidden]="!showActivityLogGrid">
+      <div class="m-portlet m-portlet--mobile">
+          <div class="m-portlet__head">
+              <div class="m-portlet__head-caption">
+                  <div class="m-portlet__head-title">
+                      <h3 class="m-portlet__head-text">
+                          {{globals.switchLanguageValue.Activity_Log}}
+                        </h3>
+                  </div>
+              </div>
+              <div class="m-portlet__head-tools">
+                  
+              </div>
+              
+          </div>
+          <div class="m-portlet__body">
+              <app-datatable #cd filterText="{{globals.switchLanguageValue.Activity_Log}} {{globals.switchLanguageValue.common_label_filter}}" 
+              filterWidth="700px" (onSearchClick)="onSearchClicked($event)" (onClearClick)="closepopup()" (onResetClick)="resetSearch($event)"
+              (onRefreshClick)="refreshDataTable()" (onPrintClick)="downloadActivityLogs(this.paging.sortBy,this.paging.sortDirection,'print', this.paging.search)"
+              (onExportPDFClick)="downloadActivityLogs(this.paging.sortBy,this.paging.sortDirection,'excel', this.paging.search)"
+              (onExportExcelClick)="downloadActivityLogs(this.paging.sortBy,this.paging.sortDirection,'pdf', this.paging.search)">
+              <div table-filter-body>
+                  <div class=" row">
+                      <div class="col-md-6 c-marginbtm20">
+                        <app-datepickerrange identifier="ReportDateRange" formGroupCssClass="c-form_group" placeholder="{{globals.switchLanguageValue.Select_date_range}}"
+                        name="ReportDateRange" label="{{globals.switchLanguageValue.Date_Range}}:" [(ngModel)]="selectedRange">
+                      </app-datepickerrange>
+                      </div>
+                      <div class="col-md-6 c-marginbtm20">
+                            
+                            <!-- <app-select2 [options]="account_list" [(ngModel)]="paging.search.account_ids" placeholder=" "
+                            identifier="account_ids" name="account_ids" class="m-select2 m-select2--air" [inline]="false"
+                            [multiple]="true" label="{{globals.switchLanguageValue.account_name}}:" optionsValueField="id"
+                            optionsTextField="account_name"></app-select2> -->
+                       
+                      </div>
+                      <div class="col-md-6 c-marginbtm20">
+                        
+                        <app-select2 [options]="users_lits" [(ngModel)]="paging.search.userslist" placeholder="Select Bussiness Group"
+                        identifier="userslist" name="userslist" class="m-select2 m-select2--air" [inline]="false"
+                        [multiple]="true" label="{{globals.switchLanguageValue.common_Users}}:" optionsValueField="id"
+                        optionsTextField="name"></app-select2>
+                      </div>
+                      
+                  </div>
+              </div>
+              <p-dataTable #activityLogDT table-body [value]="activitylog_list" [rows]="10" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[5,10,20,25]" [totalRecords]="totalRecords" [lazy]="true" (onLazyLoad)="getActivityLogList($event)" scrollable="true" sortMode="multiple" [alwaysShowPaginator]="false">
+                  <p-column field="firstname" header="{{globals.switchLanguageValue.user_name}}" [sortable]="true" styleClass="text-left m-datatable__cell--center m-datatable__cell c-action-width180 word_break">
+                  </p-column>
+                  <p-column field="activity_desc" header="{{globals.switchLanguageValue.description}}" [sortable]="true" styleClass="text-left m-datatable__cell--center m-datatable__cell c-action-width120 word_break"></p-column>
+                  
+                  <p-column field="user_agent_activity" header="{{globals.switchLanguageValue.Entity}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120 word_break">
+                </p-column>
+                  <p-column field="business_group" header="{{globals.switchLanguageValue.business_Group}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120 word_break">
+                    </p-column>
+                  <p-column field="request_url" header="{{globals.switchLanguageValue.Request_URL}}" [sortable]="true" styleClass="text-left m-datatable__cell--center m-datatable__cell c-action-width120 word_break"></p-column>
+                  <p-column field="request_type" header="{{globals.switchLanguageValue.Request_Type}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120 word_break">
+                  </p-column>
+
+                  <p-column field="request_ip" header="{{globals.switchLanguageValue.IP_Address}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120 word_break">
+                  </p-column>
+                  <p-column field="request_datetime" header="{{globals.switchLanguageValue.Activity_Date}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120" [style]="{'width':'150px'}">
+                  </p-column>
+                  
+              </p-dataTable>
+          </app-datatable>
+          </div>
+      </div>
+  </div>
+  <!-- grid over  -->
+
+  <!-- add / edit trackers -->
+
+
+
+
+ 

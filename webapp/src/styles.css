@@ -1,0 +1,5 @@
+/* You can add global styles to this file, and also import other style files */
+@import './app/mastercomponents/ngbcomponents/datatable/datatable.css';
+@import './app/mastercomponents/ngbcomponents/paginator/paginator.css';
+@import './app/mastercomponents/ngbcomponents/dropdown/dropdown.css';
+@import './app/mastercomponents/ngbcomponents/common/common.css';

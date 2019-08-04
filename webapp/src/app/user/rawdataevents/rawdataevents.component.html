@@ -1,0 +1,134 @@
+<div class="m-subheader ">
+    
+  <div class="d-flex align-items-center">
+      <div class="mr-auto">
+          <h3 class="m-subheader__title m-subheader__title--separator">
+                {{globals.switchLanguageValue.common_rawcrumb}}
+          </h3>
+          <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+              <li class="m-nav__item m-nav__item--home">
+                  <a  class="m-nav__link m-nav__link--icon">
+                      <i class="m-nav__link-icon la la-home"></i>
+                  </a>
+              </li>
+              <li class="m-nav__separator">
+                  -
+              </li>
+              <li class="m-nav__item">
+                  <a  class="m-nav__link">
+                      <span class="m-nav__link-text">
+                        {{globals.switchLanguageValue.common_rawcrumb}}
+                      </span>
+                  </a>
+              </li>
+              <!-- <li class="m-nav__separator">
+                  -
+              </li>
+              <li class="m-nav__item">
+                  <a href="" class="m-nav__link">
+                      <span class="m-nav__link-text">
+                          Trips
+                      </span>
+                  </a>
+              </li> -->
+          </ul>
+      </div>
+      <div>
+
+      </div>
+  </div>
+</div>
+
+<div class="m-content c-page-min-height" [hidden]="!showTable">
+  <div class="m-portlet m-portlet--mobile">
+      <div class="m-portlet__head">
+          <div class="m-portlet__head-caption">
+              <div class="m-portlet__head-title">
+                  <h3 class="m-portlet__head-text">
+                        {{globals.switchLanguageValue.common_rawcrumb}}
+                  </h3>
+              </div>
+          </div>
+      </div>
+      <div class="m-portlet__body">
+          <app-datatable #cd filterText="{{globals.switchLanguageValue.common_rawcrumb}} {{globals.switchLanguageValue.common_label_filter}}" 
+          (onSearchClick)="onSearchClicked($event)" (onClearClick)="closepopup()" (onResetClick)="resetSearch($event)"
+          (onRefreshClick)="refreshDataTable()" (onPrintClick)="downloadRawCrumbs(this.paging.sortBy,this.paging.sortDirection,'print', this.paging.search)"
+          (onExportPDFClick)="downloadRawCrumbs(this.paging.sortBy,this.paging.sortDirection,'excel', this.paging.search)"
+          (onExportExcelClick)="downloadRawCrumbs(this.paging.sortBy,this.paging.sortDirection,'pdf', this.paging.search)" 
+          filterWidth="700px" [showDownload]="globals.getprofileaction != null && globals.getprofileaction.Reports_RawCrumbs_Export"
+          [showPrint]="globals.getprofileaction != null && globals.getprofileaction.Reports_RawCrumbs_Export">
+          <div table-filter-body>
+              <div class=" row">
+                  <div class="col-md-6 c-marginbtm20">
+                      <app-textbox identifier="imei_number" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.trackers_IMEI_Number}}:" 
+                              placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.trackers_IMEI_Number}}"
+                                  name="imei_number" [(ngModel)]="paging.search.imei_number"></app-textbox>
+                  </div>
+                  <div class="col-md-6 c-marginbtm20">
+                    <app-textbox identifier="vehicle" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.vehicle}}:" 
+                    placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.vehicle}}"
+                        name="vehicle" [(ngModel)]="paging.search.registration_no"></app-textbox>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6 c-marginbtm20">
+                    <app-datepicker name="from_date" identifier="from_date" [(ngModel)]="paging.search.from_date" label="{{globals.switchLanguageValue.from_date}}:"  formGroupCssClass="c-form_group" [inline]="false" [showPickerOnTop]="false" placeholder="{{globals.switchLanguageValue.from_date}}" ></app-datepicker>
+                       
+                  </div>
+                  <div class="col-md-6 c-marginbtm20">
+                      
+                  </div>
+
+              </div>
+              <div class=" row">
+                  <div class="col-md-6 c-marginbtm20">
+                   
+                  </div>
+                  <div class="col-md-6 c-marginbtm20">
+                    <!--  <app-datepicker name="to_date" identifier="to_date" [(ngModel)]="paging.search.to_date"   label="{{globals.switchLanguageValue.to_date}}:" formGroupCssClass="c-form_group"  [inline]="false" [showPickerOnTop]="false" placeholder="{{globals.switchLanguageValue.to_date}}" ></app-datepicker> -->
+                  </div>
+              </div>
+      </div>
+          <p-dataTable #tripsDT table-body [value]="rawdata" [rows]="10" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[1,5,10,20,25]" [totalRecords]="totalRecords"
+              [lazy]="true" (onLazyLoad)="getAllCrumbs($event)" scrollable="true" sortMode="multiple"  #dt
+              [alwaysShowPaginator]="false" >
+             <!--  <p-column field="id" header="{{globals.switchLanguageValue._id}}" [sortable]="true" [style]="{'width':'150px'}" styleClass="text-left m-datatable__cell--center m-datatable__cell wordwrap"></p-column> -->
+            <p-column header="{{globals.switchLanguageValue.trackers_IMEI_Number}}" [sortable]="true" [style]="{'width':'200px'}" styleClass="text-left m-datatable__cell--center m-datatable__cell">
+              <ng-template let-userdt="rowData" pTemplate="body">
+                  <span>
+                      {{userdt.imei_number}}
+                    </span>
+              </ng-template>
+              </p-column>
+              <p-column field="registration_number" header="{{globals.switchLanguageValue.vehicles_register_no}}" [sortable]="true" [style]="{'width':'150px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column>
+              <p-column field="PARAM" header="{{globals.switchLanguageValue.param}}" [sortable]="true" [style]="{'width':'150px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column>
+              <p-column field="heading" header="{{globals.switchLanguageValue.heading}}" [sortable]="true" [style]="{'width':'150px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column>
+              <!-- <p-column field="ignition_status" header="{{globals.switchLanguageValue.ignition_status}}" [sortable]="true" [style]="{'width':'150px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column> -->
+              <!-- <p-column field="gps_sat_count" header="Gps Sat Count" [sortable]="true" [style]="{'width':'150px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column> -->
+              <!-- <p-column field="gps_odometer" header="{{globals.switchLanguageValue.gps_odometer}}" [sortable]="true" [style]="{'width':'150px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column> -->
+              <!-- <p-column [style]="{'width':'150px'}" field="tracker_unique_id" header="{{globals.switchLanguageValue.tracker_uniqueid}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column> -->
+              <!-- <p-column [style]="{'width':'150px'}" field="gps_datetime" header="{{globals.switchLanguageValue.gps_time}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column> -->
+              <!-- <p-column [style]="{'width':'150px'}" field="processing_date" header="{{globals.switchLanguageValue.processed_time}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column>
+              <p-column [style]="{'width':'150px'}" field="created_time" header="{{globals.switchLanguageValue.created_time}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column> -->
+              <p-column [style]="{'width':'150px'}" field="received_time" header="{{globals.switchLanguageValue.received_time}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column>
+              <p-column [style]="{'width':'150px'}" field="speed" header="{{globals.switchLanguageValue.speed}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column>
+             <!--  <p-column [style]="{'width':'150px'}" field="latitude" header="{{globals.switchLanguageValue.common_latitude}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column>
+              <p-column [style]="{'width':'150px'}" field="longitude" header="{{globals.switchLanguageValue.common_longitude}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell wordwrap"></p-column> -->
+              <p-column field="currentlocation" [style]="{'width':'170px'}" header="{{globals.switchLanguageValue.position}}"
+              [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120">
+              <ng-template let-vehicle="rowData" pTemplate="body">
+                <label class="m-nav__link " *ngIf="vehicle.latitude == null && vehicle.longitude == null">
+                  -
+                 </label> 
+                <a (click)="getMap(vehicle.id,vehicle.latitude,vehicle.longitude)" class="m-nav__link btn m-btn m-btn--pill c-btn-hover-design" *ngIf="vehicle.latitude != null && vehicle.longitude != null">{{vehicle.latitude | number:'1.2-4'}}, {{vehicle.longitude | number:'1.2-4'}}</a>
+                <!--<span>{{tackerdt.speed_limit}}</span>-->
+
+              </ng-template>
+            </p-column>
+              
+          </p-dataTable>
+          </app-datatable>
+      </div>
+  </div>
+</div>

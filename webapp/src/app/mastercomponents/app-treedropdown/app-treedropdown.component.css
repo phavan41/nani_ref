@@ -1,0 +1,17 @@
+.treeview-header .row{
+	margin-left: 5px;
+    margin-right: 5px;
+}
+
+.treeview-header{
+	margin-top: 10px;
+}
+
+ngx-dropdown-treeview .dropdown-toggle:after{
+	right: 1.6rem !important;
+    margin-top: 1.3rem !important;
+}
+
+.dropdown-menu.show{
+	width: 100%;
+}

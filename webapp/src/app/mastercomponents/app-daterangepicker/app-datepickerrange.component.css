@@ -1,0 +1,19 @@
+.date-range-picker{
+	background-color: #fff !important;
+    border: 2px solid #ddd !important;
+    border-width: 0 1px 4px !important;
+}
+
+.ranges ul li.active button{
+	color: #fff !important;
+}
+
+.ranges ul li:hover button{
+	color: #08c !important;
+}
+
+@media only screen and (min-width: 630px) {
+	.datepicker-min-width{
+		min-width:630px;
+	}
+}

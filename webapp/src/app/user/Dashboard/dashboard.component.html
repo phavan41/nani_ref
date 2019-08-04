@@ -1,0 +1,417 @@
+
+      <div class="m-subheader">
+        <div class="d-flex align-items-center">
+          <div class="mr-auto">
+            <h3 class="m-subheader__title">
+                {{globals.switchLanguageValue.Dashboard_key}}
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="m-content">
+        <div class="row" >
+          <div class="col-md-6">
+            
+          </div>
+          <div class="col-md-6" style="padding-bottom: 13px;padding-left: 251px;">
+            
+              <div class="btn-group mr-2" role="group" aria-label="...">
+                    <button type="button" class="m-btn btn {{autoRefresh?'btn-primary':' c-map_top_icons'}}" (click)="refreshAllTabsData()" >
+                        <i class="flaticon-refresh"></i>
+                      </button>
+               
+                
+                    <button type="button" class="m-btn btn checkbox-map_top_icons" style="cursor: pointer;" (click)="onSelectedAutoRefresh($event)" >
+                        <img src="{{ autoRefreshChecked ? '../../assets/images/auto.png' : '../../assets/images/auto-disabled.png' }}"
+                          style="height: 21px;">
+                      </button>
+               
+                
+                    
+            <button type="button" class="m-btn btn checkbox-map_top_icons margin-override" *ngIf="autoRefreshChecked" >
+                
+                  <app-selectbox identifier="autorefresh"  [options]="timeIntervalData"
+                     name="autorefresh" [(ngModel)]="autoRefreshInterval" 
+                    optionsValueField="intervals" optionsTextField="intervals" (change)="onSelectedAutoRefreshInterval(autoRefreshChecked)" >
+                  </app-selectbox>
+                
+              </button>
+                </div>
+            
+            </div>
+            
+            
+        </div>
+        <div class="row">
+            <div class="col-xl-3">
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="min-height: 100px;width: 160px;">
+							<div class="m-portlet__head">
+							  <div class="m-portlet__head-caption">
+								<div class="m-portlet__head-title">
+								  <h3 class="m-portlet__head-text">
+									  {{globals.switchLanguageValue.common_vehicles}}  <i class="la la-car m--font-brand"></i>
+								  </h3>
+								</div>
+							  </div>
+							  
+							</div>
+							<div class="m-portlet__body">
+							  <!--begin::Widget5-->
+							 
+							   <div class="m-widget20" >
+								<div class="m-widget20__number m--font-success">{{dashBoardData.vehicalCount}}</div>
+								
+							  </div> 
+							  <!--end::Widget 5-->				 
+							</div>
+						  </div>
+					  </div>
+				  </div>
+				  <div class="row">
+					<div class="col-xl-12">
+						<div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="min-height: 100px;width: 160px;">
+							<div class="m-portlet__head">
+							  <div class="m-portlet__head-caption">
+								<div class="m-portlet__head-title">
+								  <h3 class="m-portlet__head-text">
+									  {{globals.switchLanguageValue.common_Drivers}} 
+									   <i class="m--font-brand">
+										  <img class="m--font-brand" src="../../assets/images/drivericon.png">
+									  </i>
+								  </h3>
+								</div>
+							  </div>
+							  
+							</div>
+							<div class="m-portlet__body">
+							  <!--begin::Widget5-->
+							 
+							   <div class="m-widget20" >
+								<div class="m-widget20__number m--font-success">{{dashBoardData.driversCount}}</div>
+								
+							  </div> 
+							  <!--end::Widget 5-->				 
+							</div>
+					  </div>
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="col-xl-12">
+						<div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="min-height: 100px;width: 160px;">
+						  <div class="m-portlet__head">
+							<div class="m-portlet__head-caption">
+							  <div class="m-portlet__head-title">
+								<h3 class="m-portlet__head-text">
+									{{globals.switchLanguageValue.Trips_In_Progress}}  <i class="flaticon-route m--font-brand"></i>
+								</h3>
+							  </div>
+							</div>
+							
+						  </div>
+						  <div class="m-portlet__body">
+							<!--begin::Widget5-->
+						   
+							 <div class="m-widget20" >
+							  <div class="m-widget20__number m--font-success">{{dashBoardData.tripsCount}}</div>
+							  
+							</div> 
+							<!--end::Widget 5-->				 
+						  </div>
+						</div>
+					</div>
+				  </div>
+            </div>
+            <div class="col-xl-9">
+                <div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="height: 500px">
+                  <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                      <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+                          {{globals.switchLanguageValue.Fleet_Distance}}
+                        </h3>
+                        <!-- <button class="btn btn-outline-success m-btn m-btn--icon m-btn--icon-only m-btn--outline-2x" (click)="getData()">
+                            <i class="la la-search"></i>
+                          </button> -->
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="m-portlet__body">
+					<div class="row">
+						<div class="col-xl-8">
+							<app-datepickerrange identifier="FleetDistanceDateRange" formGroupCssClass="c-form_group" [inline]="true" labelColumns="3" placeholder="{{globals.switchLanguageValue.Select_date_range}}"
+							name="FleetDistanceDateRange" label="{{globals.switchLanguageValue.Date_Range}}:"  [timePicker]="false" [(ngModel)]="selectedRange" [timePicker]="true" [timePicker24Hour]="true" (onChange)="sendDateRangeToFleetDistance()"
+							[locale]="{applyLabel: 'ok', format: 'MM/DD/YYYY'}"
+							>
+						  </app-datepickerrange>
+						</div>
+						<div class="col-xl-4">
+							{{globals.switchLanguageValue.Total_Distance}}: <b> {{this.total_fleetDistance}} {{globals.switchLanguageValue.KM}} </b>
+						</div>
+					</div>
+					<div class="row">
+              <highcharts-chart [Highcharts]="fleet_Highcharts" [options]="fleetDistance_options"   style="width: 100%; display: block;"></highcharts-chart>  
+						
+					</div>
+                    <!--end::Widget 5-->				 
+                  </div>
+                  
+                </div>
+              </div>
+        </div>
+	<!-- <div class="row" style="margin-bottom:50px;">
+			<div class="col-md-6" >
+				<app-datepickerrange identifier="Search" formGroupCssClass="c-form_group" placeholder="Select..."
+					name="ReportDateRange" label="Select Date Range:" [(ngModel)]="selectedRange">
+				</app-datepickerrange>
+			</div>
+			<div class="col-md-6" >
+			{{selectedRange | json  }}
+			</div>
+		</div> -->
+          <div class="row">
+              <div class="col-xl-8">
+                <!--begin:: Widgets/Sales Stats-->
+              <div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="height: 500px">
+                  <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                      <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+                          {{globals.switchLanguageValue.fleet_structure}}
+                        </h3>
+                        <!-- <button class="btn btn-outline-success m-btn m-btn--icon m-btn--icon-only m-btn--outline-2x" (click)="getData()">
+                            <i class="la la-search"></i>
+                          </button> -->
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="m-portlet__body">
+                    <!--begin::Widget5-->
+                    <!-- <div class="m-widget20">
+                      <div class="m-widget20__number m--font-success">
+                       
+                      </div>
+                      
+                    </div> -->
+                    <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [(update)]="summaryUpdateFlag" style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+                    <!--end::Widget 5-->				 
+                  </div>
+                </div>
+            <!--end:: Widgets/Sales Stats-->	</div>
+            <div class="col-xl-4">
+                <div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="height: 500px">
+                    <div class="m-portlet__head">
+                      <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                          <h3 class="m-portlet__head-text">
+                           
+                          </h3>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <div class="m-portlet__body">
+                      <!--begin::Widget5-->
+                      <!-- <div class="m-widget20">
+                        <div class="m-widget20__number m--font-success">
+                            {{globals.switchLanguageValue.common_vehicles}}
+                        </div>
+                        
+                      </div>  -->
+                     <div class="row data">
+                       <div class="col-md-2">
+                          <i class="m--font-brand">
+                              <img src="../../../assets/images/dash_car_na.png" alt="No Previous Data Cars">
+                          </i>
+                       </div>
+                       <div class="col-md-7">
+                        {{globals.switchLanguageValue.no_previous_data}}
+                        </div>
+                        <div class="col-md-3">
+                            {{dashboard_result.noPreviousDataCount}}
+                          </div>
+                     </div>
+                     <div class="row data">
+                        <div class="col-md-2">
+                           <i class="m--font-brand">
+                              <img src="../../../assets/images/dash_car_green.png" alt="Moving Cars">
+                            </i>
+                        </div>
+                        <div class="col-md-7">
+                          {{globals.switchLanguageValue.moving}}
+                         </div>
+                         <div class="col-md-3">
+                            {{dashboard_result.isMovingCount}}
+                           </div>
+                      </div>
+                      <div class="row data">
+                          <div class="col-md-2">
+                             <i class="m--font-brand" >
+                                <img src="../../../assets/images/dash_car_red.png" alt="Idle Cars">
+                            </i>
+                          </div>
+                          <div class="col-md-7">
+                            {{globals.switchLanguageValue.idle}} 
+                           </div>
+                           <div class="col-md-3">
+                              {{dashboard_result.isIdleCount}}
+                             </div>
+                        </div>
+                        <div class="row data">
+                            <div class="col-md-2">
+                               <i class="m--font-brand">
+                                  <img src="../../../assets/images/dash_car_black.png" alt="Parking Cars">
+                               </i>
+                            </div>
+                            <div class="col-md-7">
+                              {{globals.switchLanguageValue.parking}} 
+                             </div>
+                             <div class="col-md-3">
+                                {{dashboard_result.ParkingCount}}
+                               </div>
+                          </div>
+                          <div class="row data">
+                              <div class="col-md-2">
+                                 <i class="m--font-brand">
+                                   <img src="../../../assets/images/dash_disconnected.png" alt="Disconnected Cars">
+                                 </i>
+                              </div>
+                              <div class="col-md-7">
+                                {{globals.switchLanguageValue.disconnected}}  
+                               </div>
+                               <div class="col-md-3">
+                                  {{dashboard_result.disConnectedCount}}
+                                 </div>
+                            </div>
+                            <div class="row data">
+                                <div class="col-md-2">
+                                   
+                                </div>
+                                <div class="col-md-7">
+                                  {{globals.switchLanguageValue.total}}
+                                 </div>
+                                 <div class="col-md-3">
+                                     {{total}}
+                                   </div>
+                              </div>
+                     			 
+                    </div>
+                  </div>
+            </div>
+             </div>
+        <!-- <div class="row">
+          <div class="col-xl-3">
+           
+          <div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="min-height: 300px">
+              <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                  <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        {{globals.switchLanguageValue.common_vehicles}}  <i class="la la-car m--font-brand"></i>
+                    </h3>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="m-portlet__body">
+                				 
+              </div>
+            </div>
+        	</div>
+          <div class="col-xl-3">
+           
+        <div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="min-height: 300px">
+          <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+              <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">
+                    {{globals.switchLanguageValue.common_trips}}  <i class="flaticon-route m--font-brand"></i>
+                </h3>
+              </div>
+            </div>
+            
+          </div>
+          <div class="m-portlet__body">
+            
+            <div class="m-widget20">
+              <div class="m-widget20__number m--font-success">{{dashBoardData.tripsCount}}</div>
+              <div class="m-widget20__chart" style="height:160px;"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                <canvas id="m_chart_bandwidth1" width="325" height="160" class="chartjs-render-monitor" style="display: block; width: 325px; height: 160px;"></canvas>
+              </div>
+            </div>
+           		 
+          </div>
+        </div>
+       	<div class="m--space-30"></div>
+           
+        
+        	</div>
+          <div class="col-xl-3">
+           
+            <div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="min-height: 300px">
+              <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                  <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                      {{globals.switchLanguageValue.common_Drivers}} <i class="m--font-brand">
+                        <img class="m--font-brand" src="../../assets/images/drivericon.png">
+                      </i>
+                    </h3>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="m-portlet__body">
+               
+                <div class="m-widget20">
+                  <div class="m-widget20__number m--font-success">{{dashBoardData.driversCount}}</div>
+                  <div class="m-widget20__chart" style="height:160px;"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                    <canvas id="m_chart_bandwidth1" width="325" height="160" class="chartjs-render-monitor" style="display: block; width: 325px; height: 160px;"></canvas>
+                  </div>
+                </div>
+				
+                 
+              </div>
+            </div>
+			
+				
+		 
+          </div>
+        
+        </div>  -->
+       
+      </div>
+     <!--  <div class="col-xl-3">
+            <div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="min-height: 300px">
+              <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                  <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                      Distance  <i class="fa fa-road m--font-brand"></i>
+                    </h3>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="m-portlet__body">
+               
+                <div class="m-widget20">
+                  <div class="m-widget20__number m--font-success">670</div>
+                  <div class="m-widget20__chart" style="height:160px;"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                    <canvas id="m_chart_bandwidth1" width="325" height="160" class="chartjs-render-monitor" style="display: block; width: 325px; height: 160px;"></canvas>
+                  </div>
+                </div>
+               			 
+              </div>
+            </div>
+          </div> -->
+          <!-- Masked Textbox Example
+			<app-textboxmasked identifier="Search" formGroupCssClass="c-form_group" placeholder="{{globals.switchLanguageValue.search_registration_no}}"
+                  prependIcon="la la-phone" name="Search" label="{{globals.switchLanguageValue.vehicles_register_no}}:"
+                  [(ngModel)]="testdata" maskPrefix="+966 " inputMask="00 000 0000" [appendPrefixToModel]="true" [showMaskTyped]="true" [specialCharacters]="[ '(',')',' ','-' ]" [clearIfNotMatch]="false" helpText="Please enter phone number." required minlength="13"></app-textboxmasked>
+			
+				  {{testdata}} -->
+        <!--end:: Widgets/Top Products-->	

@@ -1,0 +1,208 @@
+<div class="m-grid__item m-grid__item--fluid m-wrapper vehicle-page">
+    <!-- BEGIN: Subheader -->
+    <div class="m-subheader ">
+      <div class="d-flex align-items-center">
+        <div class="mr-auto">
+          <h3 class="m-subheader__title m-subheader__title--separator">{{globals.switchLanguageValue.common_vehicles}}</h3>
+          <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+            <li class="m-nav__item m-nav__item--home">
+              <a class="m-nav__link m-nav__link--icon">
+                <i class="m-nav__link-icon la la-home"></i>
+              </a>
+            </li>
+            <li class="m-nav__separator">-</li>
+            <li class="m-nav__item">
+              <a class="m-nav__link">
+                <span class="m-nav__link-text">{{globals.switchLanguageValue.common_vehicles}}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row c-marginbtm20 c-margintop20">
+          <div class="col-md-4 c-marginbtm20">
+          <app-selectbox identifier="account_name"  [(ngModel)]="paging.search.account_ids" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.account_name}}:" [options]="account_list" optionsValueField="id" optionsTextField="account_name" name="account_name" (onChange)="getAccountEncryptedId($event,paging.search.account_ids)" required></app-selectbox>
+            </div>
+      </div>
+    </div>
+    <!-- end Side bar -->
+   
+    <!-- table start -->
+    <div class="m-content c-page-min-height" [hidden]="!showTable">
+      <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+          <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+              <h3 class="m-portlet__head-text">
+                {{globals.switchLanguageValue.common_vehicles}}
+              </h3>
+            </div>
+          </div>
+          <div class="m-portlet__head-tools">
+              
+          </div>
+        </div>
+        <div class="m-portlet__body">
+          <app-datatable #cd filterText="{{globals.switchLanguageValue.vehicle}} {{globals.switchLanguageValue.common_label_filter}}"
+            (onSearchClick)="onSearchClicked($event)" (onClearClick)="closepopup()" (onResetClick)="resetSearch($event)"
+            (onRefreshClick)="refreshDataTable($event)" (onPrintClick)="downloadVehicle(this.paging.sortBy,this.paging.sortDirection,'print', this.paging.search)"
+            (onExportPDFClick)="downloadVehicle(this.paging.sortBy,this.paging.sortDirection,'excel', this.paging.search)"
+            (onExportExcelClick)="downloadVehicle(this.paging.sortBy,this.paging.sortDirection,'pdf', this.paging.search)"
+            filterWidth="700px" >
+            <div table-filter-body>
+              <div class=" row">
+                <div class="col-md-6 c-marginbtm20">
+                  <app-textbox identifier="Search" formGroupCssClass="c-form_group" placeholder="{{globals.switchLanguageValue.search_registration_no}}"
+                    prependIcon="la la-search" name="Search" label="{{globals.switchLanguageValue.vehicles_register_no}}:"
+                    [(ngModel)]="paging.search.registration_no"></app-textbox>
+                </div>
+                <div class="col-md-6 c-marginbtm20">
+                   
+                  <!-- <app-select2 [options]="Status" [(ngModel)]="paging.search.vehicles_status" identifier="vehicles_status"
+                    name="vehicles_status" class="m-select2 m-select2--air" [multiple]="true" label="{{globals.switchLanguageValue.account_column_status}}:"
+                    optionsValueField="status" optionsTextField="status_name"></app-select2> -->
+                </div>
+              </div>
+            </div>
+            <p-dataTable #vehicleDT table-body [value]="vehicleList" [rows]="10" [paginator]="true" [pageLinks]="5"
+              [rowsPerPageOptions]="[5,10,20,25]" [totalRecords]="totalRecords" [lazy]="true" (onLazyLoad)="getVehicles($event)"
+              scrollable="true" [hidden]="showform" [alwaysShowPaginator]="false"  
+        >
+        
+       
+              <p-column header="{{globals.switchLanguageValue.vehicles_register_no}}" [sortable]="true" [style]="{'width':'170px'}"
+                styleClass="text-center m-datatable__cell--center m-datatable__cell">
+                <ng-template let-vehicle="rowData" pTemplate="body">
+                  <span style="width: 170px;">
+                    <div class="row">
+                      <div class="col-4" style="text-align: center;">
+                        <img alt="Vehicle" class="m--marginless m--img-centered" src="{{vehicle.vehiclestatus==1 ? (vehicle.ismoving == 1 ? '/assets/images/greencar.svg' : '/assets/images/redcar.svg') : '/assets/images/blackcar.svg'}}"
+                         onError="this.src='/assets/images/blackcar.svg';" width="22px">
+                      </div>
+                      <div class="col-8 c-form_group">
+                        <p class="text-left mrgntop10">{{vehicle.registration_number}}</p>
+                      </div>
+                    </div>
+                  </span>
+                </ng-template>
+              </p-column>
+              <p-column field="imei_number" [style]="{'width':'150px'}" header="{{globals.switchLanguageValue.trackers_IMEI_Number}}"
+                [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120">
+              </p-column>
+              <p-column field="currentlocation" [style]="{'width':'170px'}" header="{{globals.switchLanguageValue.current_location}}"
+                [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120">
+                <ng-template let-vehicle="rowData" pTemplate="body">
+                  <label class="m-nav__link " *ngIf="vehicle.current_lat == null && vehicle.current_lng == null">
+                    -
+                   </label> 
+                  <!-- <a (click)="getMap(vehicle.id,vehicle.current_lat,vehicle.current_lng)" class="m-nav__link btn m-btn m-btn--pill c-btn-hover-design" *ngIf="vehicle.current_lat != null && vehicle.current_lng != null">{{vehicle.current_lat | number:'1.2-4'}}, {{vehicle.current_lng | number:'1.2-4'}}</a> -->
+                  <!--<span>{{tackerdt.speed_limit}}</span>-->
+  
+                </ng-template>
+              </p-column>
+              <p-column field="currentstatus" [style]="{'width':'150px'}" header="{{globals.switchLanguageValue.current_status}}"
+                [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120">
+                <ng-template let-vehicle="rowData" pTemplate="body">
+                  <label class="m-nav__link " *ngIf="vehicle.currentstatus==0">Off</label>
+                  <label class="m-nav__link " *ngIf="vehicle.currentstatus==1">Running</label>
+                  <!--<span>{{tackerdt.speed_limit}}</span>-->
+  
+                </ng-template>
+              </p-column>
+              <p-column field="currentdriver" [style]="{'width':'150px'}" header="{{globals.switchLanguageValue.current_driver}}"
+                [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120">
+              </p-column>
+              <p-column field="lastupdated" [style]="{'width':'150px'}" header="{{globals.switchLanguageValue.last_updated}}"
+                [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120">
+              </p-column>
+             
+  
+  
+              <p-column field="status" 
+                [style]="{'width':'170px'}" header="{{globals.switchLanguageValue.account_column_status}}" [sortable]="true"
+                styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120">
+                 <ng-template pTemplate="body" let-vehicle="rowData">
+                  <app-selectbox identifier="status" formGroupCssClass="c-nomargin" [options]="Status" name="status"
+                    [(ngModel)]="vehicle.status" (onChange)="selectChanged(vehicle.id,vehicle.status,$event)" optionsTextField="status_name"
+                    optionsValueField="status"></app-selectbox>
+                </ng-template> 
+              </p-column>
+              <p-column [style]="{'width':'150px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width12">
+                <ng-template let-vehicle="rowData" let-i="rowIndex" pTemplate="body">
+                    <a (click)="openConfirmPopup(vehicle.id)" class="m-nav__link btn m-btn m-btn--pill c-btn-hover-design"
+                    title="Delete"><i class="fa fa-trash"></i></a>
+                    <a   class="m-nav__link btn m-btn m-btn--pill c-btn-hover-design vehicle_action_menu_link"
+							title="{{vehicle.is_locked == true ? globals.switchLanguageValue.common_unlock : globals.switchLanguageValue.common_lock}}" (click)="updatedVehicleLock(vehicle.id,vehicle.is_locked,$event)"><i class="{{vehicle.is_locked == true ?'fa fa-lock lock':'fa fa-unlock unlock'}}"></i></a>
+                </ng-template>
+              </p-column>
+              
+            </p-dataTable>
+          </app-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #cofirmPopup let-c="close" let-d="dismiss">
+    
+  <div class="modal-header">
+      <h4 class="modal-title" id="exampleModalLabel"></h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onConfirmClickded('No')">
+          <span aria-hidden="true">×</span>
+      </button>
+  </div>
+  
+  <div class="modal-body">
+  
+  <div class="m-portlet__body ">
+      <div class="row">
+          <div class="col-md-12" style="text-align: center;">
+            <div class="swal2-header">
+              <h2 class="swal2-title" id="swal2-title" style="display: flex;color: #575962;font-weight: 500;font-size: 1.0rem;margin: 0 0 1rem;">{{globals.switchLanguageValue.Delete_Vehicle_Data}}</h2>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  </div>
+  <div class="modal-footer m-form__actions--solid">
+      <div class="col-lg-12 text-center">
+          <app-button buttonText="{{globals.switchLanguageValue._Confirm}}" cssClass="btn m-btn--pill btn-success m-btn--air m-btn m-btn--custom btn-custom-style" buttonIcon="la la-check-circle" (onClick)="onConfirmClickded('Yes')"></app-button>
+          <app-button buttonText="{{globals.switchLanguageValue.common_button_close}}" cssClass="btn m-btn--pill btn-warning m-btn--air m-btn m-btn--custom btn-custom-style" buttonIcon="la la-close" (onClick)="onConfirmClickded('No')"></app-button>
+      </div>
+  </div>
+  
+  </ng-template>
+  <ng-template #showdeleteVehicle let-c="close" let-d="dismiss">
+    
+  <div class="modal-header">
+      <h4 class="modal-title" id="exampleModalLabel"></h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)=" clancelConfirmPopup()">
+          <span aria-hidden="true">×</span>
+      </button>
+  </div>
+  
+  <div class="modal-body">
+  
+  <div class="m-portlet__body ">
+      <div class="row">
+          <div class="col-md-12" style="text-align: center;">
+            <div class="swal2-header">
+              <h2 class="swal2-title" id="swal2-title" style="display: flex;color: #575962;font-weight: 500;font-size: 1.0rem;margin: 0 0 1rem;">{{globals.switchLanguageValue.Confirm_Delete_BusinessGroup}}</h2>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  </div>
+  <div class="modal-footer m-form__actions--solid">
+      <div class="col-lg-12 text-center">
+          <app-button buttonText="{{globals.switchLanguageValue._Confirm}}" cssClass="btn m-btn--pill btn-success m-btn--air m-btn m-btn--custom btn-custom-style" buttonIcon="la la-check-circle" (onClick)="confirmToDeleteVehicleById($event,id)"></app-button>
+          <app-button buttonText="{{globals.switchLanguageValue.common_button_cancel}}" cssClass="btn m-btn--pill btn-warning m-btn--air m-btn m-btn--custom btn-custom-style" buttonIcon="la la-close" (onClick)="clancelConfirmPopup()"></app-button>
+      </div>
+  </div>
+  
+  </ng-template>
+ 
+
+  
+ 

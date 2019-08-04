@@ -1,0 +1,26 @@
+<div class="form-group m-form__group {{ this.formGroupCssClass }} {{ inline && label && !labelColumns ? 'm-form__group--inline' : '' }} {{ inline && label && labelColumns ? ' row inlineformrow' : '' }}">
+	<label *ngIf="label && labelColumns" for="{{identifier}}" class="{{labelCssClass}}" >
+		{{label}}
+		<span *ngIf="this.validators && this.validators.length > 0" class="validationindicator">*</span>
+	</label>
+	<div class="m-form__label" *ngIf="label && !labelColumns">
+		<label class="{{labelCssClass}}" for="{{identifier}}">{{label}}</label>
+		<span *ngIf="this.validators && this.validators.length > 0" class="validationindicator">*</span>
+	</div>
+	<div class="{{ dropdownColumns ? dropdownDivCssClass : 'm-form__control' }}">
+		<ngx-dropdown-treeview [config]="config" [items]="items" [buttonClass]="buttonClass" 
+		[placeHolderText]="placeHolderText"
+		(selectedChange)="selectionChanged($event)" 
+            (filterChange)="onFilterChange($event)">
+          </ngx-dropdown-treeview>
+		<input type="hidden" [(ngModel)]="value" #field="ngModel" >  
+		<validation class="{{model.control.touched ? 'ng-touched' : 'ng-untouched'}} {{ (invalid | async) ? 'invalid' : ''}}"
+			[@flyInOut]="'in,out'"
+			*ngIf="(invalid | async)"
+			[messages]="failures | async">
+		</validation>
+		<div *ngIf="helpText" class="m-form__help">
+			{{helpText}}
+		</div>
+	</div>
+</div>

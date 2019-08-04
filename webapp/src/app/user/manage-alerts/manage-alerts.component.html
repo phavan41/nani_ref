@@ -1,0 +1,172 @@
+<div class="m-grid__item m-grid__item--fluid m-wrapper">
+  <div class="m-subheader ">
+    <div class="d-flex align-items-center">
+      <div class="mr-auto">
+        <h3 class="m-subheader__title m-subheader__title--separator">{{globals.switchLanguageValue.common_alerts}}</h3>
+        <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+          <li class="m-nav__item m-nav__item--home">
+            <a class="m-nav__link m-nav__link--icon">
+              <i class="m-nav__link-icon la la-home"></i>
+            </a>
+          </li>
+          <li class="m-nav__separator">-</li>
+          <li class="m-nav__item">
+            <a class="m-nav__link">
+              <span class="m-nav__link-text">{{globals.switchLanguageValue.common_alerts}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="m-content c-page-min-height" [hidden]="!showAlertsTable">
+    <div class="m-portlet m-portlet--mobile">
+      <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+          <div class="m-portlet__head-title">
+            <h3 class="m-portlet__head-text">
+              {{globals.switchLanguageValue.common_alerts}}
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="m-portlet__body">
+        <app-datatable #cd filterText="Alert {{globals.switchLanguageValue.common_label_filter}}" (onSearchClick)="onSearchClicked($event)"
+          (onClearClick)="closepopup()" (onResetClick)="resetSearch($event)" (onRefreshClick)="refreshDataTable()" [showDownload]="false" [showPrint]="false" filterWidth="700px">
+          <div table-filter-body>
+            <div class="row">
+              <div class="col-xl-6 c-marginbtm20">
+                  <app-select2 [options]="alertTypeObjects" [(ngModel)]="paging.search.alertType" identifier="alertType" name="alertType" class="m-select2 m-select2--air"
+                          [multiple]="true" label="{{globals.switchLanguageValue.common_alert_type}}:" optionsValueField="id"
+                          optionsTextField="type"></app-select2>
+              </div>
+              <div class="col-md-6 c-marginbtm20">
+                <app-datepicker identifier="from_date" name="from_date" identifier="from_date" [(ngModel)]="paging.search.from_date" formGroupCssClass="c-form_group"
+                  label="{{globals.switchLanguageValue.common_effective_from_date}} :" [inline]="false" [showPickerOnTop]="true"></app-datepicker>
+
+              </div>
+              <!-- <div class="col-md-6 c-marginbtm20">
+                <app-selectbox identifier="businessgroup" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.users_Bussiness_Group}}:"
+                  [options]="bussinessgroup" (onChange)="getBusinessUnitsList(paging.search.business_group_id)" name="business_group_id"
+                  [(ngModel)]="paging.search.business_group_id" placeholder="-- Select --" optionsValueField="id" optionsTextField="group_name"></app-selectbox>
+              </div> -->
+            </div>
+            <div class="row">
+              
+              <!-- <div class="col-md-6 c-marginbtm20">
+                <app-selectbox identifier="businessunit" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_Business_Unit}}:"
+                  [options]="busssinessunit" name="business_unit_id" [(ngModel)]="paging.search.business_unit_id" placeholder="-- Select --"
+                  optionsValueField="id" optionsTextField="unit_name"></app-selectbox>
+              </div> -->
+              
+              <div class="col-md-6 c-marginbtm20">
+                <app-datepicker identifier="to_date" name="to_date" identifier="to_date" [(ngModel)]="paging.search.to_date" formGroupCssClass="c-form_group"
+                  label="{{globals.switchLanguageValue.common_effective_to_date}} :" [inline]="false" [showPickerOnTop]="true"></app-datepicker>
+
+              </div>
+            </div>
+            <div class="row">
+              
+            </div>
+          </div>
+          <p-dataTable #alertsDT table-body [value]="alerts" [rows]="10" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[1,5,10,20,25]"
+            [totalRecords]="totalRecords" [lazy]="true" (onLazyLoad)="getAllAlerts($event)" scrollable="true" sortMode="multiple"
+             #dt [alwaysShowPaginator]="false">
+            <p-column header="{{globals.switchLanguageValue.type}}" [sortable]="true" [style]="{'width':'170px'}" styleClass="text-left m-datatable__cell--center m-datatable__cell"
+              field="type">
+            </p-column>
+            <p-column field="object_type" header="{{globals.switchLanguageValue.object_Type}}" [sortable]="false" [style]="{'width':'150px'}"
+              styleClass="text-left m-datatable__cell--center m-datatable__cell wordwrap"></p-column>
+            <p-column field="sourcename" header="{{globals.switchLanguageValue.common_source}}" [sortable]="false" [style]="{'width':'150px'}"
+              styleClass="text-left m-datatable__cell--center m-datatable__cell wordwrap"></p-column>
+            <p-column header="{{globals.switchLanguageValue.alert_Date}}" [sortable]="true" [style]="{'width':'150px'}" styleClass="text-left m-datatable__cell--center m-datatable__cell wordwrap">
+              <ng-template let-alert="rowData" pTemplate="body">
+                {{alert.alert_date| date: 'dd/MM/yyyy HH:MM:SS'}}
+              </ng-template>
+            </p-column>
+            <!-- <p-column field="status" header="{{globals.switchLanguageValue.account_column_status}}" [sortable]="false" [style]="{'width':'150px'}"
+              styleClass="text-left m-datatable__cell--center m-datatable__cell wordwrap"></p-column> -->
+
+              <p-column field="status" [style]="{'width':'170px'}" header="{{globals.switchLanguageValue.account_column_status}}" [sortable]="true"
+              styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120">
+              <ng-template pTemplate="body" let-vehicle="rowData">
+                <app-selectbox identifier="status" formGroupCssClass="c-nomargin" [options]="StatusTypes" name="status"
+                   optionsTextField="status" [(ngModel)]="vehicle.status" (onChange)="selectChanged(vehicle.id,vehicle.status)"
+                  optionsValueField="status"
+				  [setDisabled]="globals.getprofileaction == null || globals.getprofileaction.Alerts_Update <= 0"></app-selectbox>
+              </ng-template>
+            </p-column>
+
+              <p-column [style]="{'width':'150px'}" styleClass="col-button">
+                <ng-template let-not="rowData" pTemplate="body">
+                      <a class="m-nav__link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" 
+                      (click)="viewAlert(not.id)"
+                          title="{{globals.switchLanguageValue.view}}">
+                          <i class="fa fa-eye"></i>
+                      </a>
+                  </ng-template>
+              </p-column>
+          </p-dataTable>
+        </app-datatable>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #alertPopup let-c="close" let-d="dismiss">
+  <div class="modal-header c-marginbtm20">
+    <h4 class="modal-title" id="exampleModalLabel">{{globals.switchLanguageValue.common_alert}}</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row" style="padding-bottom: 5px;">
+      <div class="col-md-3">
+        <b>{{globals.switchLanguageValue.object_Type}}</b>
+      </div>
+      <div class="col-md-8">: {{alertid.object_type}}</div> 
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+      <div class="col-md-3">
+        <b>{{globals.switchLanguageValue.alert_Date}}</b>
+      </div>
+      <div class="col-md-8">: {{alertid.alert_date| date: 'dd/MM/yyyy HH:MM:SS'}}</div> 
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+      <div class="col-md-3">
+        <b>{{globals.switchLanguageValue.common_alert_type}}</b>
+      </div>
+      <div class="col-md-8">: {{alertid.type}}</div> 
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+      <div class="col-md-3">
+        <b>{{globals.switchLanguageValue.common_source}}</b>
+      </div>
+      <div class="col-md-8">: {{alertid.sourcename}}</div> 
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+      <div class="col-md-3">
+        <b>{{globals.switchLanguageValue.account_column_status}}</b>
+      </div>
+      <div class="col-md-8">: {{alertid.status}}</div> 
+    </div>
+    <!-- <div class="m-content" style="border-top:1px solid #333">
+      <div class="row" style="padding-bottom:10px;">
+        <div class="col-md-12 text-center">
+          <b>{{notification.value1}}</b>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-9">{{notification.value2}}</div>
+      </div>
+    </div> -->
+  </div>
+  <div class="modal-footer">
+
+    <div class="col-lg-12 text-center">
+      <app-button buttonText="{{globals.switchLanguageValue.common_button_close}}" cssClass="btn m-btn--pill btn-warning m-btn--air m-btn m-btn--custom btn-custom-style"
+        buttonIcon="la la-close" (onClick)="closeAlert()"></app-button>
+    </div>
+  </div>
+
+</ng-template>

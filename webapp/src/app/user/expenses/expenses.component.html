@@ -1,0 +1,148 @@
+<ng-template #showExpensesPopup let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="exampleModalLabel" *ngIf="registration_number != null">
+      <!--{{globals.switchLanguageValue.common_location_alerts}}-->{{globals.switchLanguageValue.expenses_of}} {{registration_number}}</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeExpensesPopup()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="m-content" [hidden]="!showAlertTable">
+      <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+          <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+              <h6 class="m-portlet__head-text">
+               
+              </h6>
+            </div>
+          </div>
+          <div class="m-portlet__head-tools">
+            <app-button buttonText="{{globals.switchLanguageValue.common_button_add}}" cssClass="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill"
+              buttonIcon="la la-plus" (onClick)="addExpensesPopup()" *ngIf="globals.getprofileaction != null && globals.getprofileaction.Vehicles_AddUpdate_Vehicle_Expense"></app-button>
+          </div>
+        </div>
+        <div class="m-portlet__body">
+          <app-datatable #cd filterText="{{globals.switchLanguageValue.vehicle}} {{globals.switchLanguageValue.common_label_filter}}" (onResetClick)="resetSearch($event)" (onSearchClick)="onSearchClicked($event)" (onClearClick)="closepopup()"  (onRefreshClick)="refreshDataTable()"
+		  (onCreated)="onTableCrated($event)"
+           [showPrint]=false [showDownload]=false  
+            filterWidth="700px">
+            <div table-filter-body>
+                <div class=" row">
+                <div class="col-md-6 c-marginbtm20">
+                <app-datepicker identifier="from_date:" formGroupCssClass="c-form_group" placeholder="{{globals.switchLanguageValue.from_date}}"
+                name="fromdate" [showPickerOnTop]="false" [(ngModel)]="paging.search.from_date"></app-datepicker>
+                </div>
+              <div class="col-md-6 c-marginbtm20">
+              <app-datepicker identifier="to_date:" formGroupCssClass="c-form_group" placeholder="{{globals.switchLanguageValue.to_date}}"
+                name="todate" [showPickerOnTop]="true" [(ngModel)]="paging.search.to_date"></app-datepicker>
+            </div>
+          </div>
+        </div>
+           <p-dataTable #expensesDT table-body [value]="vehicleExpenseList" [rows]="10" [paginator]="true" [pageLinks]="5"
+              [rowsPerPageOptions]="[5,10,20,25]" [totalRecords]="totalRecords" [lazy]="true" (onLazyLoad)="getAllExpenses($event,this)"
+              scrollable="true" [hidden]="showform" [alwaysShowPaginator]="false">
+              <p-column field="registration_number" [style]="{'width':'150px'}" header="{{globals.switchLanguageValue.vehicles_register_no}}"
+                [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width180 word_break">
+              </p-column>
+              <p-column field="maintenance_date" header="{{globals.switchLanguageValue.maintenance_date}}" [sortable]="true"
+                styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width180 word_break">
+              </p-column>
+              <p-column field="amount" header="{{globals.switchLanguageValue.amount}}" [sortable]="true" [style]="{'width':'170px'}"
+              styleClass="text-left m-datatable__cell--center m-datatable__cell">
+              <ng-template let-expense="rowData" pTemplate="body">
+                <span style="width: 170px;">
+                  <div class="row">
+                    <div class="col-2" style="text-align:center;padding-left: 10px;">
+                      <p class="text-left mrgntop10" *ngIf="accountcurrency != null">{{accountcurrency.symbol}}</p>
+                    </div>
+                    <div class="col-10 c-form_group" style="text-align: center;">
+                      <p class="text-left mrgntop10">{{expense.amount}}</p>
+                    </div>
+                  </div>
+                </span>
+              </ng-template>
+            </p-column>
+              <p-column field="description" [style]="{'width':'150px'}" header="{{globals.switchLanguageValue.description}}"
+                [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120 word_break">
+              </p-column>
+              
+              <!-- <p-column field="WebHook" [style]="{'width':'150px'}" header="{{globals.switchLanguageValue.common_web_hook}}"
+                [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120 word_break">
+              </p-column> -->
+              <p-column [style]="{'width':'200px'}" styleClass="col-button c-action-width120">
+                <ng-template let-expense="rowData" pTemplate="body">
+                  <a *ngIf="globals.getprofileaction != null && globals.getprofileaction.Vehicles_AddUpdate_Vehicle_Expense" class="m-nav__link btn m-btn m-btn--pill c-btn-hover-design"
+                    title="Edit" (click)="editExpenseById(expense.id)">
+                    <i class="fa fa-edit"></i>
+                  </a>
+                </ng-template>
+              </p-column>
+            </p-dataTable> 
+          </app-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer m-form__actions--solid">
+    <div class="col-lg-12 text-center">
+      <app-button buttonText="{{globals.switchLanguageValue.common_button_close}}" cssClass="btn m-btn--pill btn-warning m-btn--air m-btn m-btn--custom btn-custom-style"
+        buttonIcon="la la-close" (onClick)="closeExpensesPopup()"></app-button>
+    </div>
+  </div>
+</ng-template>
+ <ng-template #addExpensespopup let-c="close" let-d="dismiss">
+  <form (ngSubmit)="addExpensesForVehicle(f)" #f="ngForm" vehicleExpenses class="m-form m-form--fit m-form--label-align-right"
+    novalidate>
+      <div class="modal-header c-marginbtm20">
+        <h4 class="modal-title" id="exampleModalLabel">{{globals.switchLanguageValue.common_button_add}}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeaddExpensesPopup()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+     <!--  <div class="modal-header c-marginbtm20" *ngIf="showUpdatelocations">
+        <h4 class="modal-title" id="exampleModalLabel">{{globals.switchLanguageValue.common_tooltipedit}}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div> -->
+      <div class="modal-body">
+  
+        <div class="tab-content">
+          <div class="row c-marginbtm20">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <app-datepicker name="maintenance_date" identifier="maintenance_date" [(ngModel)]="expense.maintenance_date"  formGroupCssClass="c-form_group"
+                        label="{{globals.switchLanguageValue.maintenance}}" [inline]="false" [showPickerOnTop]="false" required></app-datepicker>
+                      </div>
+                      <div class="col-md-6">
+                        <app-textbox identifier="amount" label="{{globals.switchLanguageValue.amount}}:" placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.amount}}" formGroupCssClass="c-form_group"
+                                     [(ngModel)]="expense.amount" name="amount" number required></app-textbox>
+                      </div>
+                </div>
+            </div>
+          </div>
+          <div class="row c-marginbtm20">
+              <div class="col-md-12">
+                 
+                     
+                          <app-textarea identifier="description" [(ngModel)]="expense.description" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.description}}:" placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.description}}" name="description" required></app-textarea>
+                     
+                 
+              </div>
+          </div>
+          
+         
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="col-lg-12 text-center">
+          <app-button buttonText="{{globals.switchLanguageValue.common_button_add}}"  buttonType="submit"  cssClass="btn btn-custom-style m-btn--pill m-btn--air btn-info m-btn m-btn--custom " buttonIcon="la la la-plus" *ngIf="!showUpdateButton"></app-button>
+          <app-button buttonText="{{globals.switchLanguageValue.common_button_update}}" buttonType="submit" cssClass="btn-custom-style m-btn--pill m-btn--air btn-success m-btn m-btn--custom" buttonIcon="la la-save" *ngIf="(showUpdateButton) && (globals.getprofileaction != null && globals.getprofileaction.Vehicles_AddUpdate_Vehicle_Expense)"></app-button>
+          <app-button buttonText="{{(showUpdateButton == true)?globals.switchLanguageValue.common_button_cancel :globals.switchLanguageValue.common_button_close}}" cssClass="btn btn-custom-style  m-btn--pill m-btn--air btn-warning m-btn m-btn--custom m-demo-icon__class m-btn--icon" buttonIcon="la la-close" (onClick)="closeaddExpensesPopup()"></app-button>
+        </div>
+      </div>
+    </form>
+    
+</ng-template> 

@@ -1,0 +1,44 @@
+<div class="form-group m-form__group {{ this.formGroupCssClass }} {{ inline && label && !labelColumns ? 'm-form__group--inline' : '' }} {{ inline && label && labelColumns ? ' row inlineformrow' : '' }}">
+	<label *ngIf="label && labelColumns" for="{{identifier}}" class="{{labelCssClass}}" >
+		{{label}}
+		<span *ngIf="this.validators && this.validators.length > 0" class="validationindicator">*</span>
+	</label>
+	<div class="m-form__label" *ngIf="label && !labelColumns">
+		<label class="{{labelCssClass}}" for="{{identifier}}">{{label}}</label>
+		<span *ngIf="this.validators && this.validators.length > 0" class="validationindicator">*</span>
+	</div>
+	<div class="{{ textBoxColumns ? textBoxDivCssClass : 'm-form__control' }}">
+		<div class="m-input-icon m-input-icon--right">
+			<input class="form-control m-input m-input--air date-range-picker {{cssClass}}" style="" [id]="identifier" placeholder="{{placeholder}}" 
+			type="text" [(ngModel)]="value" #field="ngModel" name="{{name}}" disabled="{{setDisabled}}" 
+				(click)="fireClick($event)" (blur)="fireBlur($event)" (focus)="fireFocus($event)"
+				appDaterangepickerMd
+				[locale]="locale"
+				startKey="start"
+				endKey="end"
+				startKeyString="startDate"
+				endKeyString="endDate"
+				[ranges]="ranges"
+				[linkedCalendars]="true" 
+				[showCustomRangeLabel]="true"
+				[alwaysShowCalendars]="false"
+				[showClearButton]="true"
+				[autoApply]="true"
+				[showCancel]="true"
+				[showRangeLabelOnInput]="true"
+				[timeZone]="timeZone"
+				[timePicker]="timePicker"
+				[timePicker24Hour]="timePicker24Hour"
+				[opens]="opens"
+				readonly>
+			<span class="m-input-icon__icon m-input-icon__icon--right" (click)="fireIconClick()" id="calndar-icon-span">
+				<span>
+					<i class="fa flaticon-calendar-2" id="calndar-icon"></i>
+				</span>
+			</span>
+		</div>
+		<div *ngIf="helpText" class="m-form__help">
+			{{helpText}}
+		</div>
+	</div>
+</div>

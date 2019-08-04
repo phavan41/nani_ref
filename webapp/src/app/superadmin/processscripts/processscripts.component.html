@@ -1,0 +1,227 @@
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+      <div class="mr-auto">
+          <h3 class="m-subheader__title m-subheader__title--separator">{{globals.switchLanguageValue.process}}</h3>
+          <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+              <li class="m-nav__item m-nav__item--home">
+                  <a class="m-nav__link m-nav__link--icon">
+                      <i class="m-nav__link-icon la la-home"></i>
+                  </a>
+              </li>
+              <li class="m-nav__separator">-</li>
+              <li class="m-nav__item">
+                  <a class="m-nav__link">
+                      <span class="m-nav__link-text">{{globals.switchLanguageValue.process}}</span>
+                  </a>
+              </li>
+          </ul>
+      </div>
+  </div>
+</div>
+
+<!-- grid start -->
+<div class="m-content c-page-min-height" style="width: 100%"  [hidden]="!showProcessGrid">
+ <div class="row">
+   <div class="col-lg-12">
+    <div class="m-portlet">
+      <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+          <div class="m-portlet__head-title">
+            <h3 class="m-portlet__head-text">
+              
+            </h3>
+          </div>
+        </div>
+        <div class="m-portlet__head-tools">
+          <button type="button" class="m-btn btn {{autoRefresh?'btn-primary':' c-map_top_icons'}}" (click)="refreshAllTabsData()" *ngIf="summaryViewTabIndex === 1?true:false">
+            <i class="flaticon-refresh"></i>
+          </button>
+          <button type="button" class="m-btn btn checkbox-map_top_icons" style="cursor: pointer;" (click)="onSelectedAutoRefresh($event)" *ngIf="summaryViewTabIndex === 1?true:false">
+            <img src="{{ autoRefreshChecked ? '../../assets/images/auto.png' : '../../assets/images/auto-disabled.png' }}"
+              style="height: 21px;">
+          </button>
+          <button type="button" class="m-btn btn checkbox-map_top_icons" *ngIf="summaryViewTabIndex === 1?true:false">
+            <div class="btn-group mr-2" role="group" aria-label="..." *ngIf="autoRefreshChecked" style="padding-top: 17px;">
+              <app-selectbox identifier="autorefresh" formGroupCssClass="c-form_group" [options]="timeIntervalData"
+                textBoxDivCssClass="map-select-box" name="autorefresh" [(ngModel)]="autoRefreshInterval" 
+                optionsValueField="intervals" optionsTextField="intervals" (change)="onSelectedAutoRefreshInterval(autoRefreshChecked,intervalData.field_value)">
+              </app-selectbox>
+            </div>
+          </button>
+      </div>
+      </div>
+      <div class="m-portlet__body">
+        <ul class="nav nav-tabs  m-tabs-line" role="tablist">
+          <li class="nav-item m-tabs__item {{summaryViewTabIndex == 1 ? 'active show' :'' }}" (click)="getTabSwitching()">
+            <a class="nav-link m-tabs__link {{summaryViewTabIndex == 1 ? 'active' :'' }}" data-toggle="tab" href="#m_tabs_6_1" role="tab" >
+                {{globals.switchLanguageValue.process_status}}
+            </a>
+          </li>
+          <li class="nav-item m-tabs__item {{summaryViewTabIndex == 2 ? 'active show' :'' }}" (click)="summaryViewTabIndex=2;">
+            <a class="nav-link m-tabs__link {{summaryViewTabIndex == 2 ? 'active' :'' }}" data-toggle="tab" href="#m_tabs_6_2" role="tab">
+                {{globals.switchLanguageValue.process_exception}} 
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content" >
+          <div class="tab-pane {{summaryViewTabIndex == 1 ? 'active' :'' }}" id="m_tabs_6_1" role="tabpanel" >
+           <!--  <div class="row">
+              <div class="col-md-3">
+                Process Name
+              </div>
+              <div class="col-md-2">
+                Status
+              </div>
+              <div class="col-md-2">
+                Data Status
+              </div>
+              <div class="col-md-5">
+                Actions
+              </div>
+            </div>
+            <hr> -->
+          <!-- <div class="row">
+            <div class="col-md-3">
+              {{script_result.subgroup_name}}
+            </div>
+            <div class="col-md-2">
+              <img alt="drivers" class="m--img-rounded m--marginless m--img-centered" src="{{script_result.process_status == 1 ? '/assets/images/active.png' :'/assets/images/inactive.png'}}" width="30px" height="30px"
+              onError="this.src='/assets/images/user-icon.png';">
+            </div>
+            <div class="col-md-2">
+                <img alt="drivers" class="m--img-rounded m--marginless m--img-centered" src="{{script_result.process_status == 1 ? '/assets/images/active.png' :'/assets/images/inactive.png'}}" width="30px" height="30px"
+                onError="this.src='/assets/images/user-icon.png';">
+              </div>
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-4" *ngIf="script_result.process_status == 1 ? false :true">
+                  <app-button buttonText="Start" cssClass="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill"  buttonIcon="la la-plus" (click)="setProcessStatusAction(script_result.script_name,script_result.subgroup_name, script_result.process_status,'start')"></app-button>
+                </div>
+                <div class="col-md-4" *ngIf="script_result.process_status == 0 ? false :true">
+                  <app-button buttonText="Stop" cssClass="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill"  buttonIcon="la la-plus" (click)="setProcessStatusAction(script_result.script_name,script_result.subgroup_name, script_result.process_status,'stop')"></app-button>
+                </div>
+                <div class="col-md-4" *ngIf="script_result.process_status == 0 ? false :true">
+                  <app-button buttonText="Restart" cssClass="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill"  buttonIcon="la la-plus" (click)="setProcessStatusAction(script_result.script_name,script_result.subgroup_name, script_result.process_status,'restart')"></app-button>
+                </div>
+              </div>
+            </div>
+          </div> 
+          <hr> -->
+          <app-datatable #cd filterText="{{globals.switchLanguageValue.menu_trackers}} {{globals.switchLanguageValue.common_label_filter}}" filterWidth="700px" [showDownload]="false" [showPrint]="false" [showFilter]="false"  [showRefresh]="false">
+                <div table-filter-body>
+                  
+                </div>
+                <p-dataTable #processDT table-body [value]="scriptList" [rows]="10" [paginator]="false" [pageLinks]="5" [rowsPerPageOptions]="[5,10,20,25]"  [lazy]="true" (onLazyLoad)="getProcessScriptList()" scrollable="true" sortMode="multiple" [alwaysShowPaginator]="false">
+                    <p-column field="subgroup_name" header="Process Name" [sortable]="true" styleClass="text-left m-datatable__cell--center m-datatable__cell c-action-width180 word_break">
+                    </p-column>
+                    <p-column styleClass="text-left col-button c-action-width120" header="Status">
+                        <ng-template let-process="rowData" pTemplate="body">
+                            <img alt="drivers" class="m--img-rounded m--marginless m--img-centered" src="{{process.process_status == 1 ? '/assets/images/active.png' :'/assets/images/inactive.png'}}" width="30px" height="30px"
+                            onError="this.src='/assets/images/user-icon.png';">
+                        </ng-template>
+                    </p-column>
+                    <p-column styleClass="text-left col-button c-action-width120" header="Data Status">
+                        <ng-template let-script="rowData" pTemplate="body">
+                            <img alt="drivers" class="m--img-rounded m--marginless m--img-centered" src="{{script.data_process_status == 1 ? '/assets/images/active.png' :'/assets/images/inactive.png'}}" width="30px" height="30px"
+                            onError="this.src='/assets/images/user-icon.png';">
+                        </ng-template>
+                    </p-column>
+                    <p-column styleClass="col-button c-action-width120" [style]="{'width':'400px'}">
+                        <ng-template let-processdt="rowData" pTemplate="body">
+                            <app-button buttonText="Start" cssClass="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill"  buttonIcon="la la-plus" (click)="setProcessStatusAction(processdt.script_name,processdt.subgroup_name, processdt.process_status,'start',processdt.shell_command)" *ngIf="processdt.process_status == 1 ? false :true"></app-button>
+                            <app-button buttonText="Stop" cssClass="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill"  buttonIcon="la la-plus" (click)="setProcessStatusAction(processdt.script_name,processdt.subgroup_name, processdt.process_status,'stop',processdt.shell_command)" *ngIf="processdt.process_status == 0 ? false :true"></app-button>
+                            <app-button buttonText="Restart" cssClass="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill"  buttonIcon="la la-plus" (click)="setProcessStatusAction(processdt.script_name,processdt.subgroup_name, processdt.process_status,'restart',processdt.shell_command)" *ngIf="processdt.process_status == 0 ? false :true"></app-button>
+                        </ng-template>
+                    </p-column>
+                </p-dataTable>
+            </app-datatable>
+          </div>
+          <div class="tab-pane {{summaryViewTabIndex == 2 ? 'active' :'' }}" id="m_tabs_6_2" role="tabpanel">
+           <!--  <div class="row">
+              <div class="col-md-3">
+                  
+              </div>
+              <div class="col-md-3">
+                 
+              </div>
+              <div class="col-md-3">
+                 
+              </div>
+              <div class="col-md-3" style="padding-top: 23px;">
+                  <app-button buttonText="{{globals.switchLanguageValue.common_button_search}}" cssClass="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill"  buttonIcon="la 	la-search" (click)="getProcessExceptionAction(from_date,to_date,logStreamName)"></app-button>
+              </div>
+            </div>
+            <hr> -->
+           <!--  <div class="row" >
+              <div class="col-md-12" *ngFor="let data of processList">
+                <div class="row">
+                    <div class="col-md-3 word_break">
+                        {{data.createdlogtime}}
+                    </div>
+                  <div class="col-md-6 word_break">
+                      {{data.message}}
+                  </div>
+                  <div class="col-md-3 word_break">
+                    {{data.logStreamName}} 
+                    </div>
+                    
+                </div>
+                <hr>
+              </div>
+              
+              
+              
+            </div> -->
+            <!-- <div  class="row">
+              <div class="col-md-12 btn-group mr-2" role="group" aria-label="...">
+
+                  <button type="button" class="m-btn btn btn-secondary" style="border-radius: 0 60px 60px 0;"> 
+                      <i class="la la-paperclip"></i>
+                    </button>
+              </div>
+            </div> -->
+           <div class="row" [hidden]="!showProcessExceptionTable">
+            <app-datatable #data filterText="{{globals.switchLanguageValue.driver_driver}} {{globals.switchLanguageValue.common_label_filter}}" 
+            filterWidth="700px" (onSearchClick)="onSearchClicked($event)"  (onClearClick)="closepopup()" (onResetClick)="resetSearch()" [showDownload]="false" (onRefreshClick)="refreshDataTable()" [showPrint]="false" [showRefresh]="true">
+            <div table-filter-body>
+              <div class="row">
+                <div class="col-xl-6 c-marginbtm20">
+                  <app-datepicker name="from_date " identifier="from_date" [(ngModel)]="from_date" label="{{globals.switchLanguageValue.from_date}}:"  formGroupCssClass="c-form_group" [inline]="false" [showPickerOnTop]="false" placeholder="{{globals.switchLanguageValue.from_date}}" ></app-datepicker> 
+                </div>
+                <div class="col-xl-6 c-marginbtm20">
+                  <app-datepicker name="to_date" identifier="to_date" [(ngModel)]="to_date"   label="{{globals.switchLanguageValue.to_date}}:" formGroupCssClass="c-form_group"  [inline]="false" [showPickerOnTop]="false" placeholder="{{globals.switchLanguageValue.to_date}}" ></app-datepicker>
+                </div>
+            </div>     
+            <div class="row">
+              <div class="col-xl-6 c-marginbtm20">
+                <app-selectbox identifier="type" formGroupCssClass="c-nomargin c-form_group" [options]="processExceptionList" name="type"
+                [(ngModel)]="logStreamName" optionsTextField="logStreamName" optionsValueField="logStreamName"  label="{{globals.switchLanguageValue.process}} :"></app-selectbox>
+              </div>
+              
+          </div>   
+            </div>
+                <p-dataTable #processExceptionDT table-body [value]="processList" [rows]="10" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[5,10,20,25]"
+                    [totalRecords]="totalrecords" [lazy]="false"  scrollable="true"
+                    sortMode="multiple" [alwaysShowPaginator]="false">
+                    <p-column field="createdlogtime" header="{{globals.switchLanguageValue.process_date}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120"></p-column>
+                    <p-column field="message" header="{{globals.switchLanguageValue.process_exception}}" [sortable]="true" styleClass="text-left m-datatable__cell--center m-datatable__cell c-action-width120 word_break" [style]="{'width':'200px'}"></p-column>
+                    <p-column field="logStreamName" header="{{globals.switchLanguageValue.process}}" [sortable]="true" styleClass="text-center m-datatable__cell--center m-datatable__cell c-action-width120" ></p-column>
+                    <p-column field=""  [style]="{'width':'50px','text-align':'center'}" *ngIf="logStreamName == 'All'? false :true">
+                        <ng-template pTemplate="header">
+                        
+                          <a  (click)="deleteProcess($event)" class="m-nav__link btn m-btn m-btn--pill c-btn-hover-design"
+                            title="Delete All">
+                            <i class="la la-trash"></i>
+                            </a>
+                        </ng-template>
+                        </p-column>
+                </p-dataTable>
+            </app-datatable>
+           </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+ </div>
+</div>

@@ -1,0 +1,634 @@
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                {{globals.switchLanguageValue.account_pagetitle}}
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a  class="m-nav__link m-nav__link--icon">
+                        <i class="m-nav__link-icon la la-home"></i>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a  class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            {{globals.switchLanguageValue.account_pagetitle}}
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a  class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            {{globals.switchLanguageValue.account_pagesubtitle}}
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div>
+
+        </div>
+    </div>
+</div>
+<div class="m-content" *ngIf="showCreateAccount">
+    <form (ngSubmit)="SubmitForm(f)" #f="ngForm" myForm class="m-form m-form--fit m-form--label-align-right" novalidate>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="m-portlet m-portlet--tab">
+                    <div class="m-portlet__body padding-left-right-5px">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <app-textbox identifier="companeName" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.account_label_companyname}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.account_label_companyname}}"
+                                        [inline]="true" labelColumns=4 textBoxColumns=8 name="company_name" [(ngModel)]="person.company_name"
+                                        required></app-textbox>
+                                </div>
+
+                                <div class="col-md-6 text-right" *ngIf="showUpdateAccount">
+                                    <div class="m-form__group form-group row">
+                                        <label class="col-9 col-form-label">{{globals.switchLanguageValue.common_label_active}}</label>
+                                        <div class="col-3">
+                                            <span class="m-switch m-switch--icon m-switch--success">
+                                                <label>
+                                                    <input type="checkbox" checked="checked" name="active" id="active" [checked]="person.status == true" [(ngModel)]="person.status">
+                                                    <span></span>
+                                                </label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
+                <label class="m-checkbox m-checkbox--state-primary">
+                    <input type="checkbox" name="sameasbusiness" [(ngModel)]="person.sameasbusiness" (change)="CopyBusinessDetails($event)"> {{globals.switchLanguageValue.account_sameas}}
+                    <span></span>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="m-portlet m-portlet--tab">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                                <h3 class="m-portlet__head-text">
+                                    {{globals.switchLanguageValue.account_businessaddress}}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet__body padding-left-right-5px">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6 c-marginbtm20">
+                                    <app-textbox identifier="address" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_address}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_address}}"
+                                        name="address" appendIcon="la la-map-marker" [(ngModel)]="person.business_address.address"
+                                        required></app-textbox>
+                                </div>
+                                <div class="col-md-6 c-marginbtm20">
+                                    <app-textbox identifier="street" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_street}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_street}}"
+                                        name="street" [(ngModel)]="person.business_address.street" required></app-textbox>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 c-marginbtm20">
+                                    <app-textbox identifier="city" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_city}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_city}}"
+                                        name="city" [(ngModel)]="person.business_address.city" required></app-textbox>
+                                </div>
+                                <div class="col-md-6 c-marginbtm20">
+                                    <app-textbox identifier="state" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_state}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_state}}"
+                                        name="state" [(ngModel)]="person.business_address.state" required></app-textbox>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 c-marginbtm20">
+                                    <app-selectbox identifier="country" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_country}}:"
+                                        [options]="countries" optionsValueField="id" optionsTextField="name" name="country" placeholder="-- {{globals.switchLanguageValue.common_label_select}} --"
+                                        required [(ngModel)]="person.business_address.country"></app-selectbox>
+                                </div>
+                                <div class="col-md-6 c-marginbtm20">
+                                    <app-textbox identifier="zipcode" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_zipcode}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_zipcode}}"
+                                        name="pincode" required [(ngModel)]="person.business_address.pincode"></app-textbox>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions m-form__actions">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="m-portlet m-portlet--tab">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                                <h3 class="m-portlet__head-text">
+                                    {{globals.switchLanguageValue.account_billingaddress}}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet__body padding-left-right-5px">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6 c-marginbtm20">
+                                    <app-textbox identifier="billaddress" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_address}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_address}}"
+                                        name="billingaddress" appendIcon="la la-map-marker" [(ngModel)]="person.billing_address.address"
+                                        required></app-textbox>
+                                </div>
+                                <div class="col-md-6 c-marginbtm20">
+                                    <app-textbox identifier="billstreet" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_street}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_street}}"
+                                        name="billingstreet" [(ngModel)]="person.billing_address.street" required></app-textbox>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 c-marginbtm20">
+                                    <app-textbox identifier="billcity" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_city}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_city}}"
+                                        name="billingcity" [(ngModel)]="person.billing_address.city" required></app-textbox>
+                                </div>
+                                <div class="col-md-6 c-marginbtm20">
+                                    <app-textbox identifier="billstate" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_state}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_state}}"
+                                        name="billingstate" [(ngModel)]="person.billing_address.state" required></app-textbox>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 c-marginbtm20">
+                                    <app-selectbox identifier="billcountry" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_country}}:"
+                                        [options]="countries" name="billingcountry" placeholder="-- {{globals.switchLanguageValue.common_label_select}}--"
+                                        required [(ngModel)]="person.billing_address.country" optionsValueField="id" optionsTextField="name"></app-selectbox>
+                                </div>
+                                <div class="col-md-6 c-marginbtm20">
+                                    <app-textbox identifier="billzipcode" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_zipcode}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_zipcode}}"
+                                        name="billingpincode" [(ngModel)]="person.billing_address.pincode" required></app-textbox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions m-form__actions">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row c-for-tab-desktop">
+            <div class="col-md-12">
+                <div class="m-portlet m-portlet--tab">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                                <h3 class="m-portlet__head-text c-heading">
+                                    {{globals.switchLanguageValue.common_label_contactinfo}}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__body padding-left-right-5px">
+                        <div class="form-group m-form__group row align-items-center">
+                            <div class="col-md-1 text-center">
+                                <label> {{globals.switchLanguageValue.common_label_primary}}</label>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <label> {{globals.switchLanguageValue.common_label_contactperson}}</label>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <label>{{globals.switchLanguageValue.common_label_email}} </label>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <label>{{globals.switchLanguageValue.common_label_phone}}</label>
+                            </div>
+                            <div class="col-md-2">
+                                <label></label>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row align-items-center " *ngFor="let rows of person.contactaccountModel ; index as i;">
+
+                            <div class="col-md-1 text-center  c-marginbtm20">
+                                <div class="m-form__group form-group c-form_group">
+                                    <div class="">
+                                        <label class="m-radio m-radio--bold">
+                                            <input type="radio" name="isprimary{{i}}" [checked]="rows.is_primary == true" (change)="isdefaultchange(i)">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 c-marginbtm20">
+                                <app-textbox identifier="contactperson{{i}}" formGroupCssClass="c-form_group" placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_contactperson}}"
+                                    name="contactperson{{i}}" [(ngModel)]="rows.contact_name" [inline]="true"></app-textbox>
+                            </div>
+                            <div class="col-md-3 c-marginbtm20">
+                                <app-textbox identifier="emailaddress{{i}}" formGroupCssClass="c-form_group" placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_email}}"
+                                    name="emailaddress{{i}}" [(ngModel)]="rows.email" [inline]="true" email></app-textbox>
+                            </div>
+                            <div class="col-md-3 c-marginbtm20">
+                                <app-textbox identifier="phonenumber{{i}}" formGroupCssClass="c-form_group" placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_phone}}"
+                                    name="phonenumber{{i}}" [(ngModel)]="rows.mobileno" [inline]="true" inputType="number"></app-textbox>
+
+                            </div>
+                            <div class="col-md-2  c-marginbtm20 text-center">
+                                <app-button buttonText="{{globals.switchLanguageValue.common_button_delete}}" cssClass="btn-sm btn btn-danger m-btn m-btn--icon m-btn--pill m-btn--air"
+                                    buttonIcon="la la-trash-o" (onClick)="deleteContactInfo($event, i)"></app-button>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+
+                                <button type="button" class="btn btn btn-sm btn-brand m-btn m-btn--icon m-btn--pill m-btn--wide" (click)="addContactInfo(false)">
+                                    <i class="la la-plus"></i> {{globals.switchLanguageValue.common_button_add}}
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions m-form__actions">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Contact info Mobile div start  -->
+        <div class="row c-for-mobile">
+            <div class="col-md-12">
+                <div class="m-portlet m-portlet--tab">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                                <h3 class="m-portlet__head-text c-heading">
+                                    {{globals.switchLanguageValue.common_label_contactinfo}}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__body padding-left-right-5px">
+                        <div class="form-group m-form__group row align-items-center c-borderbtm c-marginbtm20" *ngFor="let rows of person.contactaccountModel ; index as i;">
+
+                            <div class="col-xl-12 text-left  c-marginbtm20">
+                                <div class="m-form__group form-group c-form_group">
+                                    <div class="">
+                                        <label class="m-radio m-radio--bold">
+                                            <input type="radio" name="is_primary" [checked]="rows.is_primary == true" (change)="isdefaultchange(i)">
+                                            <span></span> {{globals.switchLanguageValue.common_label_primary}}
+                                        </label>
+                                        <!-- <app-radiobutton identifier="isprimary" helpText="Primary" label="Primary"
+                                                name="isprimary" [inline]="true"
+                                                labelColumns=2 radioBoxListColumns=10 [inlineRadio]="true" [(ngModel)]="contactinfo[i].is_primary" required>
+                                                </app-radiobutton>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 c-marginbtm20 c-form_group">
+                                <app-textbox identifier="contactperson{{i}}" formGroupCssClass="c-form_group" placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_contactperson}}"
+                                    name="contactperson{{i}}" [(ngModel)]="rows.contact_name" label="Contact Person"></app-textbox>
+                            </div>
+                            <div class="col-xl-12 c-marginbtm20 c-form_group">
+                                <app-textbox identifier="emailaddress{{i}}" formGroupCssClass="c-form_group" placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_email}}"
+                                    name="emailaddress{{i}}" [(ngModel)]="rows.email" label="Email Address" email></app-textbox>
+                            </div>
+                            <div class="col-xl-12 c-marginbtm20 c-form_group">
+                                <app-textbox identifier="phonenumber{{i}}" formGroupCssClass="c-form_group" placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_phone}}"
+                                    name="phonenumber{{i}}" [(ngModel)]="rows.mobileno" label="Phone Number"></app-textbox>
+
+                            </div>
+                            <div class="col-xl-12  c-marginbtm20 text-center">
+                                <app-button buttonText="{{globals.switchLanguageValue.common_button_delete}}" cssClass="btn-sm btn btn-danger m-btn m-btn--icon m-btn--pill m-btn--air"
+                                    buttonIcon="la la-trash-o" (onClick)="deleteContactInfo($event, i)"></app-button>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn btn-sm btn-brand m-btn m-btn--icon m-btn--pill m-btn--wide" (click)="addContactInfo()">
+                                    <i class="la la-plus"></i> {{globals.switchLanguageValue.common_button_add}}
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions m-form__actions">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Contact info Mobile div end  -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="m-portlet m-portlet--tab">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                                <h3 class="m-portlet__head-text">
+                                    {{globals.switchLanguageValue.account_admininfo}}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__body padding-left-right-5px">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6  c-marginbtm20">
+                                    <app-textbox identifier="firstname" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_firstname}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_firstname}}"
+                                        name="user_firstname" [(ngModel)]="person.user_firstname" required></app-textbox>
+                                </div>
+                                <div class="col-md-6  c-marginbtm20">
+                                    <app-textbox identifier="lastname" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_lastname}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_lastname}}"
+                                        name="user_lastname" [(ngModel)]="person.user_lastname" required></app-textbox>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6  c-marginbtm20">
+                                    <app-textbox identifier="username" [disabled]="showUpdateAccount" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.common_label_email}}:"
+                                        placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.common_label_email}}"
+                                        name="user_email" [(ngModel)]="person.user_email" required email></app-textbox>
+                                </div>
+                                <div class="col-md-6">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="m-portlet m-portlet--tab">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                                <h3 class="m-portlet__head-text">
+                                    {{globals.switchLanguageValue.common_settings}}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__body padding-left-right-5px">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <!-- <div class="col-md-6  c-marginbtm20">
+                                    <app-selectbox identifier="languages" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.nav_menu_language}}:"
+                                    [options]="languages" optionsValueField="id" optionsTextField="language_name" name="languages" placeholder="-- {{globals.switchLanguageValue.common_label_select}} --"
+                                    required [(ngModel)]="person.language_id"></app-selectbox>
+                                </div> -->
+                                <div class="col-md-6  c-marginbtm20">
+                                    <app-selectbox identifier="timezone" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.nav_menu_timezone}}:"
+                                    [options]="timezone" optionsValueField="time_zone_id" optionsTextField="timezonedata" name="timezone" placeholder="-- {{globals.switchLanguageValue.common_label_select}} --"
+                                    required [(ngModel)]="person.time_zone_id"></app-selectbox>
+                                </div>
+                                <div class="col-md-6  c-marginbtm20">
+                                    <app-selectbox identifier="currency_id" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.currency}}:"
+                                    [options]="currency" optionsValueField="id" optionsTextField="currency_country" name="currency_id" placeholder="-- {{globals.switchLanguageValue.common_label_select}} --"
+                                    required [(ngModel)]="person.currency_id"></app-selectbox>
+                                </div>
+                            </div>
+                            <div class="row">
+								<div class="col-md-6  c-marginbtm20">
+									<app-textbox identifier="overspeed_back_off_time" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.overspeed_back_off_time}}:"
+                                        placeholder="{{globals.switchLanguageValue.overspeed_back_off_time}} {{globals.switchLanguageValue.overspeed_back_off_time}}"
+                                        name="overspeed_back_off_time" [(ngModel)]="person.overspeed_back_off_time" required></app-textbox>
+								</div>
+								<div class="col-md-6  c-marginbtm20">
+									<app-textbox identifier="overspeed_initial_delay" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.overspeed_initial_delay}}:"
+                                        placeholder="{{globals.switchLanguageValue.overspeed_initial_delay}} {{globals.switchLanguageValue.overspeed_initial_delay}}"
+                                        name="overspeed_initial_delay" [(ngModel)]="person.overspeed_initial_delay" required></app-textbox>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6  c-marginbtm20">
+									<app-selectbox identifier="map_icon_theme" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.map_icon_theme}}:"
+                                        [options]="Themes" name="map_icon_theme" placeholder="-- {{globals.switchLanguageValue.common_label_select}}--"
+                                        required [(ngModel)]="person.map_icon_theme" optionsValueField="value" optionsTextField="name"></app-selectbox>
+								</div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="m-portlet__foot m-portlet__foot--fit">
+            <div class="m-form__actions m-form__actions">
+                <div class=" row">
+                    <div class="col-lg-12 text-center">
+                        <app-button buttonType="submit" buttonText="{{globals.switchLanguageValue.common_button_update}}" *ngIf="showUpdateAccount"
+                            cssClass="btn-custom-style m-btn--pill m-btn--air btn-success m-btn m-btn--custom" buttonIcon="la la-save"></app-button>
+                        <app-button buttonType="submit" buttonText="{{globals.switchLanguageValue.common_button_add}}" *ngIf="!showUpdateAccount"
+                            cssClass="btn-custom-style m-btn--pill m-btn--air btn-info m-btn m-btn--custom" buttonIcon="la la-plus"></app-button>
+                        <app-button buttonText="{{(showUpdateAccount == true)?globals.switchLanguageValue.common_button_cancel :globals.switchLanguageValue.common_button_close}}" cssClass="btn-custom-style  m-btn--pill m-btn--air btn-warning m-btn m-btn--custom m-demo-icon__class"
+                            buttonIcon="la la-remove" (onClick)="toggleCreateAccount(false,true)"></app-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!-- gird -->
+
+<div class="m-content c-page-min-height" [hidden]="!showAccountTable">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        {{globals.switchLanguageValue.account_pagetitle}}
+                    </h3>
+                </div>
+            </div>
+            <div class="m-portlet__head-tools">
+                <button class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" (click)="toggleCreateAccount(false)">
+                    <span>
+                        <i class="la la la-plus"></i>
+                        <span>{{globals.switchLanguageValue.account_addbutton}}</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <div class="m-portlet__body">
+            <app-datatable #cd filterText="Account Filter" (onSearchClick)="onSearchClicked($event)" 
+            (onClearClick)="closepopup()" (onResetClick)="resetSearch()"
+            (onRefreshClick)="refreshDataTable()" (onPrintClick)="downloadAccount(this.paging.sortBy,this.paging.sortDirection,'print', paging.search)"
+            (onExportPDFClick)="downloadAccount(this.paging.sortBy,this.paging.sortDirection,'excel', this.paging.search)"
+            (onExportExcelClick)="downloadAccount(this.paging.sortBy,this.paging.sortDirection,'pdf', this.paging.search)"
+            filterWidth="700px">
+            <div table-filter-body>
+                <div class="row">
+                        <div class="col-md-6 c-marginbtm20">
+                                <app-textbox identifier="account_name" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.account_name}}:"
+                                    placeholder="{{globals.switchLanguageValue.enter_account_name}}"
+                                    [(ngModel)]="paging.search.account_name" name="account_name"></app-textbox>
+                            </div>
+                    <!-- <div class="col-md-6 c-marginbtm20">
+                        <app-textbox identifier="companeName" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.account_label_companyname}}:"
+                            placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.account_label_companyname}}"
+                            [(ngModel)]="paging.search.account_name" name="companeName"></app-textbox>
+                    </div> -->
+                    <div class="col-md-6 c-marginbtm20">
+                        <app-textbox identifier="ContactEmail" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.account_label_contactmail}}:"
+                            placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.account_label_contactmail}}"
+                            [(ngModel)]="paging.search.contact_email" name="ContactEmail"></app-textbox>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 c-marginbtm20">
+        
+                        <app-select2 [options]="countries" [(ngModel)]="paging.search.country" identifier="tbSkills" name="tbSkills" class="m-select2 m-select2--air"
+                            [multiple]="true" label="{{globals.switchLanguageValue.account_column_country}}:" optionsValueField="id" optionsTextField="name"></app-select2>
+                    </div>
+                    <div class="col-md-6 c-marginbtm20">
+        
+                        <app-select2 [options]="Status" [(ngModel)]="paging.search.status" identifier="statussearch" name="statussearch" class="m-select2 m-select2--air"
+                            [multiple]="true" label="{{globals.switchLanguageValue.account_column_status}}:" minlengtharray minlength="2" optionsValueField="id" optionsTextField="name"></app-select2>
+                    </div>
+        
+                </div>
+                <div class="row">
+                    
+                    
+                </div>
+            </div>
+            <p-dataTable #accountDT table-body [value]="accountlist" [rows]="10" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[5,10,20,25]" [totalRecords]="totalRecords"
+            [lazy]="true" (onLazyLoad)="getAllAccountData($event)" scrollable="true" 
+			[alwaysShowPaginator]="false">
+            <p-column field="account_name" header="{{globals.switchLanguageValue.account_column_companyname}}" [style]="{'width':'150px'}"
+                styleClass="text-center paddingleft0 wordwrap" [sortable]="true"></p-column>
+            <p-column header="{{globals.switchLanguageValue.account_column_contactinfo}}" field="email" [sortable]="true" [style]="{'width':'170px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell">
+                <ng-template let-a="rowData" pTemplate="body">
+                    <span>{{a.email}} &nbsp; {{a.mobileno}}</span>
+                </ng-template>
+            </p-column>
+            <p-column field="city" header="{{globals.switchLanguageValue.account_column_city}}" [sortable]="true" [style]="{'width':'150px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell">
+            </p-column>
+            <p-column field="country" header="{{globals.switchLanguageValue.account_column_country}}" [sortable]="true" [style]="{'width':'170px'}" styleClass="text-center m-datatable__cell--center m-datatable__cell">
+            </p-column>
+            
+            <p-column field="status" header="{{globals.switchLanguageValue.account_column_status}}" [sortable]="true" styleClass="text-left m-datatable__cell--center m-datatable__cell c-action-width120">
+
+                <ng-template let-userdt="rowData" pTemplate="body">
+                    <span class="m-switch m-switch--outline m-switch--icon m-switch--brand">
+                        <label>
+                            <input type="checkbox" checked="checked" name="status" id="status" [checked]="userdt.status == true" (click)="buttonClick(userdt.id)">
+                            <span></span>
+
+                        </label>
+                    </span>
+                </ng-template>
+            </p-column>
+            <p-column header="{{globals.switchLanguageValue.view_account}}" styleClass="col-button text-center m-datatable__cell--center m-datatable__cell c-action-width120">
+                <ng-template let-userdt="rowData" pTemplate="body">
+                    <app-button
+                     [routerLink]="['/account',userdt.account_encrypt_id]"
+                     
+                      buttonText="Go" cssClass="btn btn-info btn-sm m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" buttonIcon="fa fa-arrow-right"></app-button>
+                </ng-template>
+            </p-column>
+            <p-column styleClass="col-button c-action-width60" >
+                <ng-template let-acc="rowData" pTemplate="body">
+                    <a (click)="editAccount(acc.id)" class="m-nav__link btn m-btn m-btn--pill c-btn-hover-design" title="{{globals.switchLanguageValue.common_tooltipedit}} ">
+                        <i class="la la-edit"></i>
+                    </a>
+                </ng-template>
+            </p-column>
+            
+        </p-dataTable>
+
+            </app-datatable>
+        </div>
+    </div>
+</div>
+
+<!-- gird end -->
+
+<ng-template #showsuccesspopup let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">{{globals.switchLanguageValue.common_label_message}}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <span>{{message}}</span> <span>{{password}}</span>
+    </div>
+    <div class="modal-footer m-form__actions--solid">
+        <div class="col-lg-12 text-center">
+            <app-button buttonText="{{globals.switchLanguageValue.common_button_close}}" cssClass="btn m-btn--pill btn-warning m-btn--air m-btn m-btn--custom btn-custom-style"
+                buttonIcon="la la-close" (onClick)="cancelPopup()"></app-button>
+        </div>
+    </div>
+</ng-template>

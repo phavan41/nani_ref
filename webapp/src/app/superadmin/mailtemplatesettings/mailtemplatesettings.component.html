@@ -1,0 +1,99 @@
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+     <div class="mr-auto">
+        <h3 class="m-subheader__title m-subheader__title--separator">
+           {{globals.switchLanguageValue.template_settings}}
+        </h3>
+        <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+           <li class="m-nav__item m-nav__item--home">
+              <a  class="m-nav__link m-nav__link--icon">
+              <i class="m-nav__link-icon la la-home"></i>
+              </a>
+           </li>
+           <li class="m-nav__separator">
+              -
+           </li>
+           <li class="m-nav__item">
+              <a class="m-nav__link">
+              <span class="m-nav__link-text">
+               {{globals.switchLanguageValue.common_settings}}
+              </span>
+              </a>
+           </li>
+           <li class="m-nav__separator">
+              -
+           </li>
+           <li class="m-nav__item">
+              <a class="m-nav__link">
+              <span class="m-nav__link-text">
+               {{globals.switchLanguageValue.template_settings}}
+              </span>
+              </a>
+           </li>
+        </ul>
+     </div>
+     <div>
+     </div>
+  </div>
+</div>
+
+<div class="m-content">
+<form (ngSubmit)="submitForm(f)" #f="ngForm" myForm class="m-form m-form--fit m-form--label-align-right" novalidate>
+  <div class="row">
+     <div class="col-lg-12">  
+        <!--begin::Portlet-->
+     <div class="m-portlet m-portlet--head-sm" data-portlet="true" id="m_portlet_tools_3">
+        <div class="m-portlet__head">
+           <div class="m-portlet__head-caption">
+              <div class="m-portlet__head-title">
+                 <h3 class="m-portlet__head-text">
+                   {{globals.switchLanguageValue.template_settings}}
+                 </h3>
+              </div>         
+           </div>
+          <div class="m-portlet__head-tools">
+              <ul class="m-portlet__nav">
+                 <li class="m-portlet__nav-item">
+                  <button class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" (click)="cancelButtonClick()">
+                    <span><i class="la la-angle-double-left"></i><span>{{globals.switchLanguageValue.common_back}}</span></span>
+                </button>
+                 </li>
+              </ul>
+           </div> 
+        </div>
+        <div class="m-portlet__body">
+           <div class="row">
+              <div class="col-md-6 c-marginbtm20">
+                <app-selectbox identifier="contentType"  [(ngModel)]="contentType" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.template}}:" [options]="content_Types" optionsValueField="id" 
+                optionsTextField="content_type" name="contentType" (onChange)="showTextAreaFeature(contentType)"></app-selectbox>
+              </div>
+              
+           </div>
+           <div class="row">
+              <div class="col-md-6 c-marginbtm20" *ngIf="showTextArea">
+                  <app-ngx-editor [config]="editorConfig"  name="contentData" [spellcheck]="true" [(ngModel)]="contentData"></app-ngx-editor>
+                  
+                <!-- <app-textarea identifier="contentData" [(ngModel)]="contentData" formGroupCssClass="c-form_group" label="{{globals.switchLanguageValue.content}}:" placeholder="{{globals.switchLanguageValue.common_placeholder_enter}} {{globals.switchLanguageValue.content}}" name="contentData"></app-textarea> -->
+              </div>
+           </div>
+        </div>
+     </div>    
+     <!--end::Portlet-->
+     </div>
+    
+   
+     <div class="col-12 text-center">
+     <div class="m-portlet__foot m-portlet__foot--fit">
+               <div class="m-form__actions m-form__actions">
+                   <div class=" row">
+                       <div class="col-lg-12 text-center">
+                            <app-button buttonType="submit" buttonText="{{globals.switchLanguageValue.common_button_update}}" cssClass="btn-custom-style m-btn--pill m-btn--air btn-success m-btn m-btn--custom" buttonIcon="la la-save"></app-button>
+                           <app-button buttonText="{{globals.switchLanguageValue.common_button_cancel}}" cssClass="btn-custom-style  m-btn--pill m-btn--air btn-warning m-btn m-btn--custom m-demo-icon__class" buttonIcon="la la-remove" (onClick)="cancelButtonClick()"></app-button>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>    
+  </div>  
+</form>
+</div>

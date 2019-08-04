@@ -1,0 +1,248 @@
+<!-- BEGIN: Left Aside -->
+<button class="m-aside-left-close  m-aside-left-close--skin-dark" id="m_aside_left_close_btn" appunwraptag="">
+  <i class="la la-close"></i>
+</button>
+<div id="m_aside_left" class="m-grid__item	m-aside-left  m-aside-left--skin-dark">
+  <!-- BEGIN: Aside Menu -->
+  <div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark" data-menu-vertical="true" data-menu-scrollable="false" data-menu-dropdown-timeout="500">
+    <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
+      <li class="m-menu__item m-menu__item--submenu " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" data-menu-submenu-toggle="hover">
+        <a routerLink="/superadmin" class="m-menu__link">
+          <i class="m-menu__link-icon fa fa-dashboard"></i>
+          <span class="m-menu__link-title">
+            <span class="m-menu__link-wrap">
+              <span class="m-menu__link-text">
+                Dashboard
+              </span>
+              <span class="m-menu__link-badge">
+                <span class="m-badge m-badge--danger">
+                  2
+                </span>
+              </span>
+            </span>
+          </span>
+        </a>
+        <div class="m-menu__submenu" style="width:155px;height:5px;">
+					<span class="m-menu__arrow"></span>
+					<ul class="m-menu__subnav">
+						<li class="m-menu__item m-menu__item--parent" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"  aria-haspopup="true" >
+							<a class="m-menu__link">
+								<span class="m-menu__link-text">
+									Dashboard
+								</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+      </li>
+      <li class="m-menu__section">
+        <h4 class="m-menu__section-text">
+          {{globals.switchLanguageValue.menu_formcomponents}}
+        </h4>
+        <i class="m-menu__section-icon flaticon-more-v3"></i>
+      </li>
+      
+      <li class="m-menu__item m-menu__item--submenu" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" data-menu-submenu-toggle="hover">
+        <a routerLink="accounts" class="m-menu__link">
+          <i class="m-menu__link-icon fa fa-vcard-o"></i>
+          <span class="m-menu__link-text">
+            Accounts
+          </span>
+        </a>
+        <div class="m-menu__submenu" style="width:155px;height:5px;">
+          <span class="m-menu__arrow"></span>
+          <ul class="m-menu__subnav">
+            <li class="m-menu__item m-menu__item--parent" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"  aria-haspopup="true" >
+              <a class="m-menu__link">
+                <span class="m-menu__link-text">
+                  Accounts
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+	  <li class="m-menu__item m-menu__item--submenu" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" data-menu-submenu-toggle="hover">
+	  <a routerLink="users" class="m-menu__link">
+		<i class="m-menu__link-icon fa fa-users"></i>
+		<span class="m-menu__link-text">
+		  Users
+		</span>
+    </a>
+    <div class="m-menu__submenu" style="width:155px;height:5px;">
+      <span class="m-menu__arrow"></span>
+      <ul class="m-menu__subnav" >
+        <li class="m-menu__item m-menu__item--parent" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"  aria-haspopup="true" >
+          <a class="m-menu__link">
+            <span class="m-menu__link-text">
+              Users
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+	</li>
+     <!-- <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true">
+          <a routerLink="users" class="m-menu__link">
+            <i class="m-menu__link-icon flaticon-settings"></i>
+            <span class="m-menu__link-text">
+              Users
+            </span>
+          </a>
+        </li>-->
+	 <!-- <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true">
+          <a routerLink="languages" class="m-menu__link">
+            <i class="m-menu__link-icon flaticon-settings"></i>
+            <span class="m-menu__link-text">
+              {{globals.switchLanguageValue.menu_language}}
+            </span>
+          </a>
+        </li> -->
+        <li class="m-menu__item m-menu__item--submenu" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" data-menu-submenu-toggle="hover">
+          <a routerLink="settings" class="m-menu__link">
+            <i class="m-menu__link-icon flaticon-settings"></i>
+            <span class="m-menu__link-text">
+              Settings
+            </span>
+          </a>
+          <div class="m-menu__submenu" style="width:155px;height:5px;">
+            <span class="m-menu__arrow"></span>
+            <ul class="m-menu__subnav">
+              <li class="m-menu__item m-menu__item--parent" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"  aria-haspopup="true" >
+                <a class="m-menu__link">
+                  <span class="m-menu__link-text">
+                    Settings
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="m-menu__item m-menu__item--submenu" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" data-menu-submenu-toggle="hover">
+          <a routerLink="activity" class="m-menu__link">
+            <i class="m-menu__link-icon la la-history" style="font-size:26px;"></i>
+            <span class="m-menu__link-text">
+                profileaction
+            </span>
+          </a>
+          <div class="m-menu__submenu" style="width:155px;height:5px;">
+            <span class="m-menu__arrow"></span>
+            <ul class="m-menu__subnav">
+              <li class="m-menu__item m-menu__item--parent" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"  aria-haspopup="true" >
+                <a class="m-menu__link">
+                  <span class="m-menu__link-text">
+                      Profiles
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="m-menu__item m-menu__item--submenu" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" data-menu-submenu-toggle="hover">
+          <a routerLink="process" class="m-menu__link">
+            <i class="m-menu__link-icon la la-gears" style="font-size:26px;"></i>
+            <span class="m-menu__link-text">
+                {{globals.switchLanguageValue.process}} 
+            </span>
+          </a>
+          <div class="m-menu__submenu" style="width:155px;height:5px;">
+            <span class="m-menu__arrow"></span>
+            <ul class="m-menu__subnav">
+              <li class="m-menu__item m-menu__item--parent" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"  aria-haspopup="true" >
+                <a class="m-menu__link">
+                  <span class="m-menu__link-text">
+                      {{globals.switchLanguageValue.process}}  
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="m-menu__item m-menu__item--submenu" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" data-menu-submenu-toggle="hover">
+          <a routerLink="profileaction" class="m-menu__link">
+            <i class="m-menu__link-icon la la-history" style="font-size:26px;"></i>
+            <span class="m-menu__link-text">
+                profileaction
+            </span>
+          </a>
+          <div class="m-menu__submenu" style="width:155px;height:5px;">
+            <span class="m-menu__arrow"></span>
+            <ul class="m-menu__subnav">
+              <li class="m-menu__item m-menu__item--parent" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"  aria-haspopup="true" >
+                <a class="m-menu__link">
+                  <span class="m-menu__link-text">
+                      Profiles
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="m-menu__item m-menu__item--submenu" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" data-menu-submenu-toggle="hover">
+            <a routerLink="ota-schedule" class="m-menu__link">
+              <i class="m-menu__link-icon la la-history" style="font-size:26px;"></i>
+              <span class="m-menu__link-text">
+                  {{globals.switchLanguageValue.Ota_Schedule}} 
+              </span>
+            </a>
+            <div class="m-menu__submenu" style="width:155px;height:5px;">
+              <span class="m-menu__arrow"></span>
+              <ul class="m-menu__subnav">
+                <li class="m-menu__item m-menu__item--parent" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"  aria-haspopup="true" >
+                  <a class="m-menu__link">
+                    <span class="m-menu__link-text">
+                        {{globals.switchLanguageValue.Ota_Schedule}}  
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="m-menu__item m-menu__item--submenu" 
+          routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+          data-menu-submenu-toggle="hover">
+          <a routerLink="vehicles" class="m-menu__link">
+            <i class="m-menu__link-icon la la-car"></i>
+            <span class="m-menu__link-text">
+              {{globals.switchLanguageValue.common_vehicles}}
+            </span>
+          </a>
+          <div class="m-menu__submenu" style="width:155px;height:5px;">
+            <span class="m-menu__arrow"></span>
+            <ul class="m-menu__subnav">
+              <li class="m-menu__item m-menu__item--parent" routerLinkActive="m-menu__item--active"
+                routerLinkActiveOptions="{ exact: true }" aria-haspopup="true">
+                <a class="m-menu__link">
+                  <span class="m-menu__link-text">
+                    {{globals.switchLanguageValue.common_vehicles}}
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+       <!--  <li class="m-menu__item m-menu__item--submenu" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" data-menu-submenu-toggle="hover">
+          <a routerLink="managemenus" class="m-menu__link">
+            <i class="m-menu__link-icon fa fa-navicon"></i>
+            <span class="m-menu__link-text">
+              {{globals.switchLanguageValue.manage_feature}}
+            </span>
+          </a>
+          <div class="m-menu__submenu" style="width:155px;height:5px;">
+            <span class="m-menu__arrow"></span>
+            <ul class="m-menu__subnav">
+              <li class="m-menu__item m-menu__item--parent" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"  aria-haspopup="true" >
+                <a class="m-menu__link">
+                  <span class="m-menu__link-text">
+                    {{globals.switchLanguageValue.manage_feature}}
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li> -->
+    </ul>
+  </div>
+  <!-- END: Aside Menu -->
+</div>
+<!-- END: Left Aside -->
