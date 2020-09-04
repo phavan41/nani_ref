@@ -40,7 +40,7 @@
     "ngx-editor": "^3.3.0",
     "ngx-infinite-scroll": "^0.8.3",
     "ngx-mask-2": "^6.5.23",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "nouislider": "^10.1.0",
     "primeng": "^5.0.0-rc.0",
     "rxjs": "^5.5.2",
